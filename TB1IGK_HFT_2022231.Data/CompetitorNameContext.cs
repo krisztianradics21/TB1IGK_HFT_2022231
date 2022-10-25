@@ -21,8 +21,14 @@ namespace TB1IGK_HFT_2022231.Data
         {
             if (!optionsBuilder.IsConfigured)
             {
-                optionsBuilder.UseLazyLoadingProxies()
-                    .UseSqlServer(@"Data Source=(LocalDB)\MSSQLLocalDB;AttachDbFilename=|DataDirectory|\CompetitorName.mdf;Integrated Security=True");
+                //string conn = @"Data Source=(LocalDB)\MSSQLLocalDB;
+                //    AttachDbFilename=|DataDirectory|\CompetitorName.mdf;Integrated Security=True";
+
+                optionsBuilder
+                    //.UseSqlServer(conn)
+                    .UseInMemoryDatabase("competitors")
+                    .UseLazyLoadingProxies();
+                    
             }
         }
 
