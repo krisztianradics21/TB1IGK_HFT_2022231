@@ -9,7 +9,7 @@ using TB1IGK_HFT_2022231.Repository.Interface;
 
 namespace TB1IGK_HFT_2022231.Repository
 {
-    class CompetitorRepository : Repository<Competitor>, IRepository<Competitor>
+    public class CompetitorRepository : Repository<Competitor>, IRepository<Competitor>
     {
         public CompetitorRepository(DbContext ctx) : base(ctx)
         {
