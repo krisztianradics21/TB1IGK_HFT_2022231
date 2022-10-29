@@ -7,7 +7,7 @@ using TB1IGK_HFT_2022231.Models;
 
 namespace TB1IGK_HFT_2022231.Logic
 {
-    interface ICompetitorLogic : ILogic<Competitor>
+    public interface ICompetitorLogic : ILogic<Competitor>
     {
         double AVGAge();
         IEnumerable<object> CompetitorWithAllRelevantData();
