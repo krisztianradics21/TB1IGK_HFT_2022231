@@ -30,12 +30,12 @@ namespace TB1IGK_HFT_2022231.Repository
 
         public override Category GetOne(int id)
         {
-            return GetAll().FirstOrDefault(x => x.ID.Equals(id));
+            return GetAll().FirstOrDefault(x => x.CategoryNumber.Equals(id));
         }
 
         public override void Update(Category input)
         {
-            Category category = GetOne(input.ID);
+            Category category = GetOne(input.CategoryNumber);
             category.AgeGroup = input.AgeGroup;
             category.BoatCategory = input.BoatCategory;
             _Ctx.SaveChanges();
