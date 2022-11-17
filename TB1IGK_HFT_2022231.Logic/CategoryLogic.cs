@@ -46,7 +46,7 @@ namespace TB1IGK_HFT_2022231.Logic
         public IEnumerable<KeyValuePair<string, string>> CompetitorsByBoatCategory()
         {
             var boatCat = from competitor in competitorRepo.GetAll()
-                          join category in categoryRepo.GetAll() on competitor.CategoryID equals category.ID
+                          join category in categoryRepo.GetAll() on competitor.CategoryID equals category.CategoryNumber
                           select new KeyValuePair<string, string>(category.BoatCategory, competitor.Name);
 
             return boatCat;
