@@ -12,7 +12,7 @@ namespace TB1IGK_HFT_2022231.Models
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int ID { get; set; }
+        public int CategoryNumber { get; set; }
         [StringLength(10)]
         public string AgeGroup { get; set; }
         [StringLength(20)]
@@ -23,14 +23,14 @@ namespace TB1IGK_HFT_2022231.Models
         }
         public Category(int id, string ageGroup, string boatCategory)
         {
-            this.ID = id;
+            this.CategoryNumber = id;
             this.AgeGroup = ageGroup;
             this.BoatCategory = boatCategory;
         }
 
         public override string ToString()
         {
-            return $"ID: {ID}\t Age Group: {AgeGroup}\tBoat Category: {BoatCategory}";
+            return $"ID: {CategoryNumber} \t Age Group: {AgeGroup} \t Boat Category: {BoatCategory}";
         }
     }
 }
