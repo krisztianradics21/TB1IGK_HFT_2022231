@@ -54,7 +54,7 @@ namespace TB1IGK_HFT_2022231.Logic
         public IEnumerable<object> CompetitorWithAllRelevantData()
         {
             return from competitor in GetAll()
-                   join category in categoryRepo.GetAll() on competitor.CategoryID equals category.ID
+                   join category in categoryRepo.GetAll() on competitor.CategoryID equals category.CategoryNumber
                    join competition in competitionRepo.GetAll() on competitor.CompetitonID equals competition.ID
                    select new
                    {
