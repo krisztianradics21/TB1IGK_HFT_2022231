@@ -12,7 +12,7 @@ namespace TB1IGK_HFT_2022231.Models
     {
         [Key]
         [DatabaseGenerated(DatabaseGeneratedOption.Identity)]
-        public int ID { get; set; }
+        public int Id { get; set; }
         [StringLength(40)]
         public string Name { get; set; }
         public int Age { get; set; }
@@ -29,7 +29,7 @@ namespace TB1IGK_HFT_2022231.Models
 
         public Competitor(int id, string name, int age, int competitionID, int categoryID, string nation)
         {
-            this.ID = id;
+            this.Id = id;
             this.Name = name;
             this.Age = age;
             this.CompetitonID = competitionID;
@@ -39,7 +39,7 @@ namespace TB1IGK_HFT_2022231.Models
 
         public override string ToString()
         {
-            return $"ID: {ID}\tName: {Name}\tAge: {Age}\tCompetition ID: {CompetitonID}\tCategory ID: {CategoryID}\tNation: {Nation}";
+            return $"ID: {Id}\tName: {Name}\tAge: {Age}\tCompetition ID: {CompetitonID}\tCategory ID: {CategoryID}\tNation: {Nation}";
         }
     }
 }
