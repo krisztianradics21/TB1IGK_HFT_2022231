@@ -49,23 +49,23 @@ namespace TB1IGK_HFT_2022231.Logic
 
         public IEnumerable<object> CompetitionBasedOnDistance(int competition)
         {
-            return from comp in GetAll()
-                   join competitor in competitorRepo.GetAll() on comp.CompetitorID equals competitor.ID
-                   join opponent in competitorRepo.GetAll() on comp.OpponentID equals opponent.ID
+            return (from comp in GetAll()
+                   join competitor in competitorRepo.GetAll() on comp.CompetitorID equals competitor.Id
+                   join opponent in competitorRepo.GetAll() on comp.OpponentID equals opponent.Id
                    where comp.ID == competition
                    select new
                    {
                        CompetitorName = competitor.Name,
                        OpponentName = opponent.Name,
                        Distance = comp.Distance
-                   };
+                   }).Take(1);
         }
 
         public IEnumerable<object> Competition_BasedOnCompetitorsNameAndNation()
         {
             return from competition in GetAll()
-                   join competitor in competitorRepo.GetAll() on competition.CompetitorID equals competitor.ID
-                   join opponent in competitorRepo.GetAll() on competition.OpponentID equals opponent.ID
+                   join competitor in competitorRepo.GetAll() on competition.CompetitorID equals competitor.Id
+                   join opponent in competitorRepo.GetAll() on competition.OpponentID equals opponent.Id
                    select new
                    {
                        CompetitionLocation = competition.Location,
@@ -79,8 +79,8 @@ namespace TB1IGK_HFT_2022231.Logic
         public IEnumerable<object> OpponentsByName()
         {
             return from competition in GetAll()
-                   join competitor in competitorRepo.GetAll() on competition.CompetitorID equals competitor.ID
-                   join opponent in competitorRepo.GetAll() on competition.OpponentID equals opponent.ID
+                   join competitor in competitorRepo.GetAll() on competition.CompetitorID equals competitor.Id
+                   join opponent in competitorRepo.GetAll() on competition.OpponentID equals opponent.Id
                    select new
                    {
                        Competitor = competitor.Name,
