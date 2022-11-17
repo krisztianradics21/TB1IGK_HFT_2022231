@@ -30,12 +30,12 @@ namespace TB1IGK_HFT_2022231.Repository
 
         public override Competitor GetOne(int id)
         {
-            return GetAll().FirstOrDefault(x => x.ID.Equals(id));
+            return GetAll().FirstOrDefault(x => x.Id.Equals(id));
         }
 
         public override void Update(Competitor input)
         {
-            Competitor competitor = GetOne(input.ID);
+            Competitor competitor = GetOne(input.Id);
             competitor.CompetitonID = input.CompetitonID;
             competitor.Name = input.Name;
             competitor.CategoryID = input.CategoryID;
