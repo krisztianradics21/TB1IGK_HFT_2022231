@@ -22,14 +22,14 @@ namespace TB1IGK_HFT_2022231.Models
         public string Location { get; set; }
         [Range(200,1000)]
         public int Distance { get; set; }
-
+        
         public Competition()
         {
         }
 
-        public Competition(int id, int competitorId, int opponentID, int numberofracescagainsteachother, string location, int distance)
+        public Competition(int iD, int competitorId, int opponentID, int numberofracescagainsteachother, string location, int distance)
         {
-            this.ID = id;
+            this.ID = iD;
             this.CompetitorID = competitorId;
             this.OpponentID = opponentID;
             this.NumberOfRacesAgainstEachOther = numberofracescagainsteachother;
