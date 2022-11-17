@@ -26,16 +26,19 @@ namespace TB1IGK_HFT_2022231.Repository
 
                 optionsBuilder
                     //.UseSqlServer(conn)
-                    .UseInMemoryDatabase("competitors")
-                    .UseLazyLoadingProxies();
+                    .UseInMemoryDatabase("competitors");
+                //.UseLazyLoadingProxies();
             }
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            //modelBuilder.Entity<Competition>()
+            //    .HasOne()
+
             var competition1 = new Competition(1, 1, 2, 5, "Szeged", 1000);
-            var competition2 = new Competition(1, 3, 4, 2, "Duisburg", 200);
-            var competition3 = new Competition(1, 5, 6, 15, "Racice", 500);
+            var competition2 = new Competition(2, 3, 4, 2, "Duisburg", 200);
+            var competition3 = new Competition(3, 5, 6, 15, "Racice", 500);
 
             var category1 = new Category(1, "U23", "Canoe");
             var category2 = new Category(2, "Adult", "Kayak");
