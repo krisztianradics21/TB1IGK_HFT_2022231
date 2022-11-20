@@ -32,9 +32,7 @@ namespace TB1IGK_HFT_2022231.Repository
         }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
-        {
-            //modelBuilder.Entity<Competition>()
-            //    .HasOne()
+        {         
 
             var competition1 = new Competition(1, 1, 2, 5, "Szeged", 1000);
             var competition2 = new Competition(2, 3, 4, 2, "Duisburg", 200);
