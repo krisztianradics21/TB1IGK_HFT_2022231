@@ -50,15 +50,16 @@ namespace TB1IGK_HFT_2022231.Logic
         public IEnumerable<object> CompetitionBasedOnDistance(int competition)
         {
             return (from comp in GetAll()
-                   join competitor in competitorRepo.GetAll() on comp.CompetitorID equals competitor.Id
-                   join opponent in competitorRepo.GetAll() on comp.OpponentID equals opponent.Id
-                   where comp.ID == competition
-                   select new
-                   {
-                       CompetitorName = competitor.Name,
-                       OpponentName = opponent.Name,
-                       Distance = comp.Distance
-                   }).Take(1);
+                    join competitor in competitorRepo.GetAll() on comp.CompetitorID equals competitor.Id
+                    join opponent in competitorRepo.GetAll() on comp.OpponentID equals opponent.Id
+                    where comp.ID == competition
+                    select new
+                    {
+                        CompetitorName = competitor.Name,
+                        OpponentName = opponent.Name,
+                        Distance = comp.Distance
+                    });
+                   
         }
 
         public IEnumerable<object> Competition_BasedOnCompetitorsNameAndNation()
