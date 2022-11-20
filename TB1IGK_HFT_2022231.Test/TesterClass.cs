@@ -13,7 +13,7 @@ namespace TB1IGK_HFT_2022231.Test
     public class TesterClass
     {
         private Mock<IRepository<Competitor>> mockedCompetitorRepo;
-        private Mock<IRepository<Models.Competition>> mockedCompetitionRepo;
+        private Mock<IRepository<Competition>> mockedCompetitionRepo;
         private Mock<IRepository<Category>> mockedCategoryRepo;
         private CompetitorLogic competitorLogic;
         private CompetitionLogic competitionLogic;
@@ -37,7 +37,7 @@ namespace TB1IGK_HFT_2022231.Test
             List<Competition> competitions = new List<Competition>()
             {
                 new Competition(1, 1, 2, 10, "Szentendre", 1000),
-                new Competition(1, 2, 3, 14, "München", 500)
+                new Competition(2, 2, 3, 14, "München", 500)
             };
 
             List<Category> categories = new List<Category>()
@@ -67,8 +67,8 @@ namespace TB1IGK_HFT_2022231.Test
         public void CompetitorReadTest()
         {
             Competitor competitor = new Competitor(4, "James", 36, 2, 2, "ARG");
-            competitorLogic.GetOne(competitor.ID);
-            mockedCompetitorRepo.Verify(x => x.GetOne(competitor.ID), Times.Once);
+            competitorLogic.GetOne(competitor.Id);
+            mockedCompetitorRepo.Verify(x => x.GetOne(competitor.Id), Times.Once);
         }
 
         [Test]
@@ -104,15 +104,72 @@ namespace TB1IGK_HFT_2022231.Test
             var q = competitorLogic.CompetitorWithAllRelevantData().ToList();
             var exc = new
             {
-                FighterName = "Test1",
-                FighterAge = 22,
-                FighterForm = "T1",
-                MatchLocation = "TestLoc1",
-                NumberOfMatches = 4,
-                WeightClass = 60
+                CompetitorName = "Tom",
+                CompetitorAge = 22,
+                CompetitorNation = "GER",
+                CompetitionLocation = "Szentendre",
+                AgeGroup ="U23",
+                BoatCategory = "Canoe"
             };
 
             Assert.That(q[0].ToString(), Is.EqualTo(exc.ToString()));
+        }
+
+        [Test]
+        public void Competition_BasedOnCompetitorsNameAndNationTest()
+        {
+            var q = competitionLogic.Competition_BasedOnCompetitorsNameAndNation().ToList();
+
+            var exc = new
+            {
+                CompetitionLocation = "Szentendre",
+                CompetitorName = "Tom",
+                CompetitorNation = "GER",
+                OpponentName = "Joe",
+                OpponentNation = "ESP"
+            };
+
+            Assert.That(q[0].ToString(), Is.EqualTo(exc.ToString()));
+        }
+
+        [Test]
+        public void CompetitionBasedOnDistanceTest()
+        {
+            var q = competitionLogic.CompetitionBasedOnDistance(1).ToList();
+            var exc = new
+            {
+                CompetitorName ="Tom",
+                OpponentName = "Joe",
+                Distance = 1000
+            };
+
+            Assert.That(q[0].ToString(), Is.EqualTo(exc.ToString()));
+        }
+
+        [Test]
+        public void OpponentsByNameTest()
+        {
+            var q = competitionLogic.OpponentsByName().ToList();
+
+            var exc = new
+            {
+                Competitor = "Tom",
+                Opponent = "Joe"
+            };
+
+            Assert.That(q[0].ToString(), Is.EqualTo(exc.ToString()));
+        }
+
+        [Test]
+        public void CompetitorsByBoatCategoryTest()
+        {
+            var q = categoryLogic.CompetitorsByBoatCategory().ToList();
+
+            KeyValuePair<string, string> competitor1 = new KeyValuePair<string, string>("Canoe", "Tom");
+            KeyValuePair<string, string> competitor2 = new KeyValuePair<string, string>("Canoe", "Joe");
+
+            Assert.That(q[0], Is.EqualTo(competitor1));
+            Assert.That(q[1], Is.EqualTo(competitor2));
         }
     }
 }
