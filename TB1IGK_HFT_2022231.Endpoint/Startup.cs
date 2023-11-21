@@ -11,6 +11,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using TB1IGK_HFT_2022231.Endpoint.Services;
 using TB1IGK_HFT_2022231.Logic;
 using TB1IGK_HFT_2022231.Models;
 using TB1IGK_HFT_2022231.Repository;
@@ -43,6 +44,7 @@ namespace TB1IGK_HFT_2022231.Endpoint
 
             services.AddSingleton<DbContext, CompetitorNameContext>();
 
+            services.AddSignalR();
 
             services.AddSwaggerGen(c =>
             {
@@ -67,6 +69,7 @@ namespace TB1IGK_HFT_2022231.Endpoint
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                endpoints.MapHub<SignalRHub>("/hub");
             });
         }
     }
