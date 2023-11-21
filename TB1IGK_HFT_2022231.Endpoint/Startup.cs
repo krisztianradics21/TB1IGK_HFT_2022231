@@ -61,7 +61,14 @@ namespace TB1IGK_HFT_2022231.Endpoint
                 app.UseSwagger();
                 app.UseSwaggerUI(c => c.SwaggerEndpoint("/swagger/v1/swagger.json", "TB1IGK_HFT_2022231.Endpoint v1"));
             }
-      
+
+            app.UseCors(x => x
+                .AllowCredentials()
+                .AllowAnyMethod()
+                .AllowAnyHeader()
+                .WithOrigins("http://localhost:14889"));
+
+
             app.UseRouting();
 
             app.UseAuthorization();
