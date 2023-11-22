@@ -8,6 +8,18 @@
 <body>
     <h1>Competitor Catalog</h1>
 
+    <div id="formdiv">
+        <label>Competitor name</label>
+        <input type="text" id="name" />
+        <button type="button" onclick="create()">Add</button>
+    </div>
+
+    <div id="updateformdiv">
+        <label>Competitor name</label>
+        <input type="text" id="nametoupdate" />
+        <button type="button" onclick="update()">Update</button>
+    </div>
+
     <table>
         <thread>
             <tr>
@@ -17,12 +29,13 @@
                 <th>CompetitonID</th>
                 <th>CategoryID</th>
                 <th>Nation</th>
+                <th>Actions</th>
             </tr>
         </thread>
         <tbody id="resultarea">
         </tbody>
     </table>
-
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/6.0.1/signalr.js"></script>
     <script src="script.js"></script>
 </body>
 </html>
