@@ -5,29 +5,165 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TB1IGK_HFT_2022231.WpfClient"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="500" Width="1250">
     <Window.DataContext>
         <local:MainWindowViewModel/>
     </Window.DataContext>
     
     <Grid>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="1*"/>
-            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition />
+            <ColumnDefinition />
+            <ColumnDefinition/>
         </Grid.ColumnDefinitions>
-        <ListBox ItemsSource="{Binding Competitors}" SelectedItem="{Binding SelectedCompetitor}">
-            <ListBox.ItemTemplate>
-                <DataTemplate>
-                    <Label Content="{Binding Name}"/>   
-                </DataTemplate>
-            </ListBox.ItemTemplate>
-        </ListBox>
-        <StackPanel Grid.Column="1">
-            <Label Content="Name" Background="LightBlue" Padding="10"/>
-            <TextBox Text="{Binding SelectedCompetitor.Name }" Padding="10" Margin="0,0,0,30"/>
+        <Grid Grid.Column="0">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+            </Grid.RowDefinitions>
+            <ListBox Grid.Row="0" ItemsSource="{Binding Categories}" SelectedItem="{Binding SelectedCategory}">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal">
+                            <Label Content="{Binding CategoryNumber}" FontWeight="Bold"/>
+                            <Label Content="Age group"/>
+                            <Label Content="{Binding AgeGroup}"/>
+                            <Label Content="Boat category:"/>
+                            <Label Content="{Binding BoatCategory}"/>
+                        </StackPanel>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+            <StackPanel Grid.Row="1" Orientation="Horizontal" VerticalAlignment="Bottom" HorizontalAlignment="Center">
+                <Button Content="Create" Command="{Binding CreateCategoryCommand}" Margin="10"/>
+                <Button Content="Delete" Command="{Binding DeleteCategoryCommand}" Margin="10"/>
+                <Button Content="Update" Command="{Binding UpdateCategoryCommand}" Margin="10"/>
+            </StackPanel>
+            <StackPanel Grid.Row="2" Orientation="Horizontal" VerticalAlignment="Bottom" HorizontalAlignment="Center">
+                <Label Content="Category number:"/>
+                <TextBox Text="{Binding SelectedCategory.CategoryNumber}" Width="20"/>
+                <Label Content="Age group:"/>
+                <TextBox Text="{Binding SelectedCategory.AgeGroup}" Width="50"/>
+                <Label Content="Boat category:"/>
+                <TextBox Text="{Binding SelectedCategory.BoatCategory}" Width="80"/>
+            </StackPanel>
+        </Grid>
+        <Grid Grid.Column="1">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+            </Grid.RowDefinitions>
+            <ListBox Grid.Row="0" ItemsSource="{Binding Competitors}" SelectedItem="{Binding SelectedCompetitor}">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Vertical">
+                            <StackPanel Orientation="Horizontal">
+                                <Label Content="{Binding Id}" FontWeight="Bold"/>
+                                <Label Content="Name:"/>
+                                <Label Content="{Binding Name}"/>
+                                <Label Content="Age:"/>
+                                <Label Content="{Binding Age}"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <Label Content="Nation:"/>
+                                <Label Content="{Binding Nation}"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <Label Content="Category number:"/>
+                                <Label Content="{Binding CategoryID}"/>
+                                <Label Content="Competition ID:"/>
+                                <Label Content="{Binding CompetitonID}"/>
+                            </StackPanel>
+                        </StackPanel>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+            <StackPanel Grid.Row="1" Orientation="Horizontal" VerticalAlignment="Bottom" HorizontalAlignment="Center">
             <Button Content="Create Competitor" Command="{Binding CreateCompetiorCommand}" Margin="10" Padding="10"/>
             <Button Content="Delete Competitor" Command="{Binding DeleteCompetiorCommand}" Margin="10" Padding="10"/>
             <Button Content="Update Competitor" Command="{Binding UpdateCompetiorCommand}" Margin="10" Padding="10"/>
         </StackPanel>
+            <Grid Grid.Row="2" VerticalAlignment="Bottom" HorizontalAlignment="Center">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition Width="auto"/>
+                    <ColumnDefinition Width="auto"/>
+                </Grid.ColumnDefinitions>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                    <RowDefinition Height="auto"/>
+                </Grid.RowDefinitions>
+                <Label Grid.Row="0" Grid.Column="0" Content="ID:"/>
+                <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding SelectedCompetitor.Id}" Width="20"/>
+                <Label Grid.Row="0" Grid.Column="2" Content="Name:"/>
+                <TextBox Grid.Row="0" Grid.Column="3" Text="{Binding SelectedCompetitor.Name}" Width="100"/>
+                <Label Grid.Row="1" Grid.Column="2" Content="Age:"/>
+                <TextBox Grid.Row="1" Grid.Column="3" Text="{Binding SelectedCompetitor.Age}" Width="50"/>
+                <Label Grid.Row="1" Grid.Column="0" Content="Nation:"/>
+                <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding SelectedCompetitor.Nation}" Width="100"/>
+                <Label Grid.Row="2" Grid.Column="0" Content="Competition ID:"/>
+                <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding SelectedCompetitor.CompetitonID}"   Width="100"/>
+                <Label Grid.Row="2" Grid.Column="2" Content="Category ID:"/>
+                <TextBox Grid.Row="2" Grid.Column="3" Text="{Binding SelectedCompetitor.CategoryID}" Width="50"/>
+            </Grid>
+        </Grid>
+
+        <Grid Grid.Column="2">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
+            </Grid.RowDefinitions>
+            <ListBox Grid.Row="0" ItemsSource="{Binding Competitions}" SelectedItem="{Binding SelectedCompetition}">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Vertical">
+                            <StackPanel Orientation="Horizontal">
+                                <Label Content="{Binding ID}" FontWeight="Bold"/>
+                                <Label Content="Competitor ID:"/>
+                                <Label Content="{Binding CompetitorID}"/>
+                                <Label Content="Opponent ID:"/>
+                                <Label Content="{Binding OpponentID}"/>
+                            </StackPanel>
+                            <StackPanel Orientation="Horizontal">
+                                <Label Content="Number of races:"/>
+                                <Label Content="{Binding NumberOfRacesAgainstEachOther}"/>
+                                <Label Content="Location:"/>
+                                <Label Content="{Binding Location}"/>
+                                <Label Content="Distance:"/>
+                                <Label Content="{Binding Distance}"/>
+                            </StackPanel>
+                        </StackPanel>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+            <StackPanel Grid.Row="1" Orientation="Horizontal" VerticalAlignment="Bottom" HorizontalAlignment="Center">
+                <Button Content="Create" Command="{Binding CreateCompetitionCommand}" Margin="10"/>
+                <Button Content="Delete" Command="{Binding DeleteCompetitionCommand}" Margin="10"/>
+                <Button Content="Update" Command="{Binding UpdateCompetitionCommand}" Margin="10"/>
+            </StackPanel>
+            <StackPanel Grid.Row="2">
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Bottom" HorizontalAlignment="Center">
+                    <Label Content="ID:"/>
+                    <TextBox Text="{Binding SelectedCompetition.ID}" Width="20"/>
+                    <Label Content="Competitor ID:"/>
+                    <TextBox Text="{Binding SelectedCompetition.CompetitorID}" Width="50"/>
+                    <Label Content="Opponent ID:"/>
+                    <TextBox Text="{Binding SelectedCompetition.OpponentID}" Width="50"/>
+                </StackPanel>
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Bottom" HorizontalAlignment="Center">
+                    <Label Content="Location:"/>
+                    <TextBox Text="{Binding SelectedCompetition.Location}" Width="100"/>
+                    <Label Content="Number of races:"/>
+                    <TextBox Text="{Binding SelectedCompetition.NumberOfRacesAgainstEachOther}" Width="50"/>
+                    <Label Content="Distance:"/>
+                    <TextBox Text="{Binding SelectedCompetition.Distance}" Width="100"/>
+                </StackPanel>
+            </StackPanel>
+        </Grid>
     </Grid>
 </Window>
