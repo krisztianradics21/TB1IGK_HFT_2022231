@@ -21,8 +21,20 @@
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="auto"/>
                 <RowDefinition Height="auto"/>
+                <RowDefinition Height="auto"/>
             </Grid.RowDefinitions>
-            <ListBox Grid.Row="0" ItemsSource="{Binding Categories}" SelectedItem="{Binding SelectedCategory}">
+            <ListBox Grid.Row="0" ItemsSource="{Binding CompetitorsByBoatCategory}">
+                <ListBox.ItemTemplate>
+                    <DataTemplate>
+                        <StackPanel Orientation="Horizontal">
+                            <Label Content="{Binding Key}" FontWeight="Bold"/>
+                            <Label Content="Age group"/>
+                            <Label Content="{Binding Value}"/>
+                        </StackPanel>
+                    </DataTemplate>
+                </ListBox.ItemTemplate>
+            </ListBox>
+            <ListBox Grid.Row="1" ItemsSource="{Binding Categories}" SelectedItem="{Binding SelectedCategory}">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <StackPanel Orientation="Horizontal">
@@ -35,12 +47,12 @@
                     </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListBox>
-            <StackPanel Grid.Row="1" Orientation="Horizontal" VerticalAlignment="Bottom" HorizontalAlignment="Center">
+            <StackPanel Grid.Row="2" Orientation="Horizontal" VerticalAlignment="Bottom" HorizontalAlignment="Center">
                 <Button Content="Create" Command="{Binding CreateCategoryCommand}" Margin="10"/>
                 <Button Content="Delete" Command="{Binding DeleteCategoryCommand}" Margin="10"/>
                 <Button Content="Update" Command="{Binding UpdateCategoryCommand}" Margin="10"/>
             </StackPanel>
-            <StackPanel Grid.Row="2" Orientation="Horizontal" VerticalAlignment="Bottom" HorizontalAlignment="Center">
+            <StackPanel Grid.Row="3" Orientation="Horizontal" VerticalAlignment="Bottom" HorizontalAlignment="Center">
                 <Label Content="Category number:"/>
                 <TextBox Text="{Binding SelectedCategory.CategoryNumber}" Width="20"/>
                 <Label Content="Age group:"/>

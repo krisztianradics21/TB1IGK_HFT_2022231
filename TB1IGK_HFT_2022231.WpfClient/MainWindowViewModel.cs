@@ -20,6 +20,7 @@ namespace TB1IGK_HFT_2022231.WpfClient
         public RestCollection<Competitor> Competitors { get; set; }
         public RestCollection<Category> Categories { get; set; }
         public RestCollection<Competition> Competitions { get; set; }
+        public RestCollection<Dictionary<string, string>> CompetitorsByBoatCategory { get; set; }
 
         private Competitor selectedCompetitor;
 
@@ -113,7 +114,7 @@ namespace TB1IGK_HFT_2022231.WpfClient
             Competitors = new RestCollection<Competitor>("http://localhost:55475/", "competitor", "hub");
             Categories = new RestCollection<Category>("http://localhost:55475/", "category", "hub");
             Competitions = new RestCollection<Competition>("http://localhost:55475/", "competition", "hub");
-
+           // CompetitorsByBoatCategory = new RestCollection<Dictionary<string, string>>("http://localhost:55475/", "Stat/CompetitorsByBoatCategory", "hub");
 
             CreateCompetiorCommand = new RelayCommand(() =>
             {
