@@ -86,11 +86,15 @@ function showupdate(id) {
 function update() {
     document.getElementById('updateformdiv').style.display = 'none';
     let name = document.getElementById('nametoupdate').value;
+    let age = document.getElementById('agetoupdate').value;
+    let competitonID = document.getElementById('competitonIDtoupdate').value;
+    let categoryID = document.getElementById('categoryIDtoupdate').value;
+    let nation = document.getElementById('nationtoupdate').value;
     fetch('http://localhost:55475/competitor', {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json', },
         body: JSON.stringify(
-            { name: name, id: IdToUpdate })
+            { name: name, id: IdToUpdate, age: age, competitonID: competitonID, categoryID: categoryID, nation: nation })
     })
         .then(response => response)
         .then(data => {
@@ -103,11 +107,15 @@ function update() {
 
 function create() {
     let name = document.getElementById('name').value;
+    let age = document.getElementById('age').value;
+    let competitonID = document.getElementById('competitonID').value;
+    let categoryID = document.getElementById('categoryID').value;
+    let nation = document.getElementById('nation').value;
     fetch('http://localhost:55475/competitor', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json', },
         body: JSON.stringify(
-            { name: name })})
+            { name: name, age:age, competitonID: competitonID, categoryID: categoryID, nation: nation })})
         .then(response => response)
         .then(data =>
         {

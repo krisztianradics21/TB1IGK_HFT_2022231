@@ -27,7 +27,7 @@ th,td{
 #formdiv{
     display: flex;
     flex-direction: column;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
 }
 #formdiv label, button, input{
     margin: 10px;
