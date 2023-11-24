@@ -37,3 +37,60 @@ th,td{
     font-weight: bolder;
 }
 
+#updateformdivcategory {
+    display: none;
+    flex-direction: column;
+    margin-bottom: 20px;
+}
+
+    #updateformdivcategory label, button, input {
+        margin: 10px;
+        padding: 7px;
+    }
+
+    #updateformdivcategory label {
+        font-weight: bolder;
+    }
+#formdivcategory{
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 10px;
+}
+
+#formdivcategory label, button, input{
+        margin: 10px;
+        padding: 7px;
+}
+
+#formdivcategory label{
+        font-weight: bolder;
+}
+
+#updateformdivcompetition {
+    display: none;
+    flex-direction: column;
+    margin-bottom: 20px;
+}
+
+    #updateformdivcompetition label, button, input {
+        margin: 10px;
+        padding: 7px;
+    }
+
+    #updateformdivcompetition label {
+        font-weight: bolder;
+    }
+#formdivcompetition {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 10px;
+}
+
+#formdivcompetition label, button, input {
+        margin: 10px;
+        padding: 7px;
+}
+
+#formdivcompetition label {
+        font-weight: bolder;
+}

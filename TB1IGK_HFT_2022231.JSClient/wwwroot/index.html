@@ -52,6 +52,90 @@
         <tbody id="resultarea">
         </tbody>
     </table>
+
+    <h1>Category Catalog</h1>
+
+    <div id="formdivcategory">
+        <!--<label>Category number</label>
+        <input type="text" id="categoryNumber" />-->
+        <label>Age group</label>
+        <input type="text" id="ageGroup" />
+        <label>Boat category</label>
+        <input type="text" id="boatCategory" />
+        <button type="button" onclick="create_category()">Add</button>
+    </div>
+
+    <div id="updateformdivcategory">
+        <label>Category update</label>
+        <!--<label>Category number</label>
+        <input type="text" id="categoryNumbertoupdate" />-->
+        <label>Age Group</label>
+        <input type="text" id="ageGrouptoupdate" />
+        <label>Boat category</label>
+        <input type="text" id="boatCategorytoupdate" />
+        <button type="button" onclick="update_category()">Update</button>
+    </div>
+
+
+    <table>
+        <thread>
+            <tr>
+                <th>CategoryNumber</th>
+                <th>AgeGroup</th>
+                <th>BoatCategory</th>
+                <th>Actions</th>
+            </tr>
+        </thread>
+        <tbody id="categoryresultarea">
+        </tbody>
+    </table>
+
+    <h1>Competition Catalog</h1>
+
+    <div id="formdivcompetition">
+        <label>Competitor ID</label>
+        <input type="text" id="competitorID" />
+        <label>Opponent ID</label>
+        <input type="text" id="opponentID" />
+        <label>Number Of Races Against Each Other</label>
+        <input type="text" id="numberOfRacesAgainstEachOther" />
+        <label>Location</label>
+        <input type="text" id="location" />
+        <label>Distance</label>
+        <input type="text" id="distance" />
+        <button type="button" onclick="create_competition()">Add</button>
+    </div>
+
+    <div id="updateformdivcompetition">
+        <label>Competitor update</label>
+        <label>Competitor ID</label>
+        <input type="text" id="competitorIDtoupdate" />
+        <label>Opponent ID</label>
+        <input type="text" id="opponentIDtoupdate" />
+        <label>Number Of Races Against Each Other</label>
+        <input type="text" id="numberOfRacesAgainstEachOthertoupdate" />
+        <label>Location</label>
+        <input type="text" id="locationtoupdate" />
+        <label>Distance</label>
+        <input type="text" id="distancetoupdate" />
+        <button type="button" onclick="update_competition()">Update</button>
+    </div>
+
+    <table>
+        <thread>
+            <tr>
+                <th>ID</th>
+                <th>Competitor ID</th>
+                <th>Opponent ID</th>
+                <th>Number of races against each other</th>
+                <th>Location</th>
+                <th>Distance</th>
+            </tr>
+        </thread>
+        <tbody id="competitionresultarea">
+        </tbody>
+    </table>
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/6.0.1/signalr.js"></script>
     <script src="script.js"></script>
 </body>
