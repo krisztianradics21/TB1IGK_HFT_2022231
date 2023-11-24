@@ -169,6 +169,21 @@ function remove_category(categoryNumber) {
 
 }
 
+function remove_competition(id) {
+    fetch('http://localhost:55475/competition/' + id, {
+        method: 'DELETE',
+        headers: { 'Content-Type': 'application/json', },
+        body: null
+    })
+        .then(response => response)
+        .then(data => {
+            console.log('Success:', data);
+            getdata_competition();
+        })
+        .catch((error) => { console.error('Error:', error); });
+
+}
+
 function showupdate(id) {
     document.getElementById('nametoupdate').value = competitors.find(t => t['id'] == id)['name'];
     document.getElementById('agetoupdate').value = competitors.find(t => t['id'] == id)['age'];
