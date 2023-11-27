@@ -53,7 +53,7 @@
                 <Button Content="Update" Command="{Binding UpdateCategoryCommand}" Margin="10"/>
             </StackPanel>
             <StackPanel Grid.Row="3" Orientation="Horizontal" VerticalAlignment="Bottom" HorizontalAlignment="Center">
-                <Label Content="Category number:"/>
+                <Label Content="ID:"/>
                 <TextBox Text="{Binding SelectedCategory.CategoryNumber}" Width="20"/>
                 <Label Content="Age group:"/>
                 <TextBox Text="{Binding SelectedCategory.AgeGroup}" Width="50"/>

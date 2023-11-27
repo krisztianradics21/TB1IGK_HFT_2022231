@@ -3,7 +3,9 @@
 <head>
     <meta charset="utf-8" />
     <title>Competitor UI</title>
-    <link rel="stylesheet" href="style.css"/>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/6.0.1/signalr.js"></script>
+    <script src="script.js"></script>
+    <link rel="stylesheet" href="style.css" />
 </head>
 <body>
     <h1>Competitor Catalog</h1>
@@ -17,24 +19,27 @@
         <input type="text" id="competitonID" />
         <label>Category ID</label>
         <input type="text" id="categoryID" />
-        <label>Nation</label>
+        <label>Nation (3 capital letters)</label>
         <input type="text" id="nation" />
-        <button type="button" onclick="create()">Add</button>
+        <button type="button" onclick="create_competitor()">Add</button>
     </div>
 
     <div id="updateformdiv">
         <label>Competitor update</label>
-        <label>Competitor name</label>
-        <input type="text" id="nametoupdate" />
-        <label>Age</label>
-        <input type="text" id="agetoupdate" />
-        <label>Competiton ID</label>
-        <input type="text" id="competitonIDtoupdate" />
-        <label>Category ID</label>
-        <input type="text" id="categoryIDtoupdate" />
-        <label>Nation</label>
-        <input type="text" id="nationtoupdate" />
-        <button type="button" onclick="update()">Update</button>
+        <form id="uodateForm">
+            <label for="nameToUpdate">Competitor name</label>
+            <input type="text" id="nameToUpdate" />
+            <label>Age</label>
+            <input type="text" id="agetoupdate" />
+            <label>Competiton ID</label>
+            <input type="text" id="competitonIDtoupdate" />
+            <label>Category ID</label>
+            <input type="text" id="categoryIDtoupdate" />
+            <label>Nation (3 capital letters)</label>
+            <input type="text" id="nationtoupdate" />
+            <button type="button" onclick="update_competitor()">Update</button>
+        </form>
+
     </div>
 
     <table>
@@ -56,8 +61,6 @@
     <h1>Category Catalog</h1>
 
     <div id="formdivcategory">
-        <!--<label>Category number</label>
-        <input type="text" id="categoryNumber" />-->
         <label>Age group</label>
         <input type="text" id="ageGroup" />
         <label>Boat category</label>
@@ -67,8 +70,6 @@
 
     <div id="updateformdivcategory">
         <label>Category update</label>
-        <!--<label>Category number</label>
-        <input type="text" id="categoryNumbertoupdate" />-->
         <label>Age Group</label>
         <input type="text" id="ageGrouptoupdate" />
         <label>Boat category</label>
@@ -101,7 +102,7 @@
         <input type="text" id="numberOfRacesAgainstEachOther" />
         <label>Location</label>
         <input type="text" id="location" />
-        <label>Distance</label>
+        <label>Distance (between 200-1000)</label>
         <input type="text" id="distance" />
         <button type="button" onclick="create_competition()">Add</button>
     </div>
@@ -116,7 +117,7 @@
         <input type="text" id="numberOfRacesAgainstEachOthertoupdate" />
         <label>Location</label>
         <input type="text" id="locationtoupdate" />
-        <label>Distance</label>
+        <label>Distance (between 200-1000)</label>
         <input type="text" id="distancetoupdate" />
         <button type="button" onclick="update_competition()">Update</button>
     </div>
@@ -130,13 +131,58 @@
                 <th>Number of races against each other</th>
                 <th>Location</th>
                 <th>Distance</th>
+                <th>Actions</th>
             </tr>
         </thread>
         <tbody id="competitionresultarea">
         </tbody>
     </table>
 
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/6.0.1/signalr.js"></script>
-    <script src="script.js"></script>
+    <h1>Non-crud methods</h1>
+
+    <button onclick="getCompetitorWithAllRelevantData()">Competitors with all relevant data</button>
+    <p id="competitorwithallrelevantdata"></p>
+
+    <!--<div id="updateformdivcompetition">
+        <label>Competitor update</label>
+        <label>Competitor ID</label>
+        <input type="text" id="competitorIDtoupdate" />
+        <label>Opponent ID</label>
+        <input type="text" id="opponentIDtoupdate" />
+        <label>Number Of Races Against Each Other</label>
+        <input type="text" id="numberOfRacesAgainstEachOthertoupdate" />
+        <label>Location</label>
+        <input type="text" id="locationtoupdate" />
+        <label>Distance</label>
+        <input type="text" id="distancetoupdate" />
+        <button type="button" onclick="update_competition()">Update</button>
+    </div>-->
+
+    <!--<table>
+        <thread>
+            <tr>
+                <th>competitorName</th>
+                <th>competitorAge</th>
+                <th>competitorNation</th>
+                <th>competitionLocation</th>
+                <th>ageGroup</th>
+                <th>boatCategory</th>
+            </tr>
+        </thread>
+        <tbody id="CompetitorWithAllRelevantDataresultarea">
+        </tbody>
+    </table>-->
+
+    <button onclick="getCompetitorsByBoatCategory()">Competitors by boat category</button>
+    <p id="competitorsbyboatcategory"></p>
+
+    <button onclick="getOpponentsByName()">Opponents by name</button>
+    <p id="OpponentsByName"></p>
+
+    <button onclick="getCompetition_BasedOnCompetitorsNameAndNation()">Competition based on competitor's name and nation</button>
+    <p id="CompetitionBasedOnCompetitorsNameAndNation"></p>
+
+    <button onclick="getAvgAge()">Competitors avarage age</button>
+    <p id="AvgAge"></p>
 </body>
 </html>
