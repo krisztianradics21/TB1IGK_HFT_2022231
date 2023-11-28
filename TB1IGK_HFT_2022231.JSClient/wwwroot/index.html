@@ -48,6 +48,7 @@
                 <label>Nation (3 capital letters)</label>
                 <input type="text" id="nationtoupdate" />
                 <button type="button" onclick="update_competitor()">Update</button>
+                <button type="button" onclick="closeAllPanelsAndShowTable('competitors')">Cancel</button>
             </form>
 
         </div>
@@ -177,57 +178,52 @@
 
 
     <div id="otherData" class="tabcontent">
-        <button onclick="getCompetitorWithAllRelevantData()">getCompetitorWithAllRelevantData</button>
 
-        <p id="almafa"></p>
+        <button onclick="getCompetitorWithAllRelevantData()">Competitors with all relevant data</button>
+        <p id="competitorwithallrelevantdata"></p>
+
+        <!--<div id="updateformdivcompetition">
+            <label>Competitor update</label>
+            <label>Competitor ID</label>
+            <input type="text" id="competitorIDtoupdate" />
+            <label>Opponent ID</label>
+            <input type="text" id="opponentIDtoupdate" />
+            <label>Number Of Races Against Each Other</label>
+            <input type="text" id="numberOfRacesAgainstEachOthertoupdate" />
+            <label>Location</label>
+            <input type="text" id="locationtoupdate" />
+            <label>Distance</label>
+            <input type="text" id="distancetoupdate" />
+            <button type="button" onclick="update_competition()">Update</button>
+        </div>-->
+
+        <!--<table>
+            <thread>
+                <tr>
+                    <th>competitorName</th>
+                    <th>competitorAge</th>
+                    <th>competitorNation</th>
+                    <th>competitionLocation</th>
+                    <th>ageGroup</th>
+                    <th>boatCategory</th>
+                </tr>
+            </thread>
+            <tbody id="CompetitorWithAllRelevantDataresultarea">
+            </tbody>
+        </table>-->
+
+        <button onclick="getCompetitorsByBoatCategory()">Competitors by boat category</button>
+        <p id="competitorsbyboatcategory"></p>
+
+        <button onclick="getOpponentsByName()">Opponents by name</button>
+        <p id="OpponentsByName"></p>
+
+        <button onclick="getCompetition_BasedOnCompetitorsNameAndNation()">Competition based on competitor's name and nation</button>
+        <p id="CompetitionBasedOnCompetitorsNameAndNation"></p>
+
+        <button onclick="getAvgAge()">Competitors avarage age</button>
+        <p id="AvgAge"></p>
     </div>
 
-
-    <h1>Non-crud methods</h1>
-
-    <button onclick="getCompetitorWithAllRelevantData()">Competitors with all relevant data</button>
-    <p id="competitorwithallrelevantdata"></p>
-
-    <!--<div id="updateformdivcompetition">
-        <label>Competitor update</label>
-        <label>Competitor ID</label>
-        <input type="text" id="competitorIDtoupdate" />
-        <label>Opponent ID</label>
-        <input type="text" id="opponentIDtoupdate" />
-        <label>Number Of Races Against Each Other</label>
-        <input type="text" id="numberOfRacesAgainstEachOthertoupdate" />
-        <label>Location</label>
-        <input type="text" id="locationtoupdate" />
-        <label>Distance</label>
-        <input type="text" id="distancetoupdate" />
-        <button type="button" onclick="update_competition()">Update</button>
-    </div>-->
-
-    <!--<table>
-        <thread>
-            <tr>
-                <th>competitorName</th>
-                <th>competitorAge</th>
-                <th>competitorNation</th>
-                <th>competitionLocation</th>
-                <th>ageGroup</th>
-                <th>boatCategory</th>
-            </tr>
-        </thread>
-        <tbody id="CompetitorWithAllRelevantDataresultarea">
-        </tbody>
-    </table>-->
-
-    <button onclick="getCompetitorsByBoatCategory()">Competitors by boat category</button>
-    <p id="competitorsbyboatcategory"></p>
-
-    <button onclick="getOpponentsByName()">Opponents by name</button>
-    <p id="OpponentsByName"></p>
-
-    <button onclick="getCompetition_BasedOnCompetitorsNameAndNation()">Competition based on competitor's name and nation</button>
-    <p id="CompetitionBasedOnCompetitorsNameAndNation"></p>
-
-    <button onclick="getAvgAge()">Competitors avarage age</button>
-    <p id="AvgAge"></p>
 </body>
 </html>
