@@ -1,5 +1,6 @@
 ﻿using Microsoft.Toolkit.Mvvm.ComponentModel;
 using Microsoft.Toolkit.Mvvm.Input;
+using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -15,8 +16,6 @@ namespace TB1IGK_HFT_2022231.WpfClient
 
     public class MainWindowViewModel : ObservableRecipient
     {
-
-
         public RestCollection<Competitor> Competitors { get; set; }
         public RestCollection<Category> Categories { get; set; }
         public RestCollection<Competition> Competitions { get; set; }
@@ -96,6 +95,11 @@ namespace TB1IGK_HFT_2022231.WpfClient
             }
 
         }
+        public ICommand GetCompetitorsByBoatCategoryCommand { get; set; }
+        public ICommand GetCompetitorWithAllRelevantDataCommand { get; set; }
+        public ICommand GetAVGAgeCommand { get; set; }
+        public ICommand GetCompetition_BasedOnCompetitorsNameAndNationCommand { get; set; }
+        public ICommand GetOpponentsByNameCommand { get; set; }
         public ICommand CreateCompetiorCommand { get; set; }
         public ICommand DeleteCompetiorCommand { get; set; }
         public ICommand UpdateCompetiorCommand { get; set; }
@@ -114,7 +118,73 @@ namespace TB1IGK_HFT_2022231.WpfClient
             Competitors = new RestCollection<Competitor>("http://localhost:55475/", "competitor", "hub");
             Categories = new RestCollection<Category>("http://localhost:55475/", "category", "hub");
             Competitions = new RestCollection<Competition>("http://localhost:55475/", "competition", "hub");
-           // CompetitorsByBoatCategory = new RestCollection<Dictionary<string, string>>("http://localhost:55475/", "Stat/CompetitorsByBoatCategory", "hub");
+            var restService = new RestService("http://localhost:55475/");
+
+
+            GetCompetitorsByBoatCategoryCommand = new RelayCommand(() =>
+            {
+                var result = restService.Get<Dictionary<string, string>>("Stat/CompetitorsByBoatCategory");
+
+                string jsonString = JsonConvert.SerializeObject(result, Formatting.Indented);
+
+                string caption = "CompetitorsByBoatCategory";
+                MessageBoxButton button = MessageBoxButton.OK;
+                MessageBoxImage icon = MessageBoxImage.Information;
+
+                MessageBox.Show(jsonString, caption, button, icon, MessageBoxResult.OK);
+            });
+
+            GetCompetitorWithAllRelevantDataCommand = new RelayCommand(() =>
+            {
+                var result = restService.Get<object>("Stat/CompetitorWithAllRelevantData");
+
+                string jsonString = JsonConvert.SerializeObject(result, Formatting.Indented);
+
+                string caption = "CompetitorWithAllRelevantData";
+                MessageBoxButton button = MessageBoxButton.OK;
+                MessageBoxImage icon = MessageBoxImage.Information;
+
+                MessageBox.Show(jsonString, caption, button, icon, MessageBoxResult.OK);
+            });
+
+            GetAVGAgeCommand = new RelayCommand(() =>
+            {
+                var result = restService.GetSingle<double>("Stat/AVGAge");
+
+                string jsonString = JsonConvert.SerializeObject(result, Formatting.Indented);
+
+                string caption = "AVGAge";
+                MessageBoxButton button = MessageBoxButton.OK;
+                MessageBoxImage icon = MessageBoxImage.Information;
+
+                MessageBox.Show(jsonString, caption, button, icon, MessageBoxResult.OK);
+            });
+
+            GetCompetition_BasedOnCompetitorsNameAndNationCommand = new RelayCommand(() =>
+            {
+                var result = restService.Get<object>("Stat/Competition_BasedOnCompetitorsNameAndNation");
+
+                var jsonString = JsonConvert.SerializeObject(result, Formatting.Indented);
+
+                string caption = "Competition_BasedOnCompetitorsNameAndNation";
+                MessageBoxButton button = MessageBoxButton.OK;
+                MessageBoxImage icon = MessageBoxImage.Information;
+
+                MessageBox.Show(jsonString, caption, button, icon, MessageBoxResult.OK);
+            });
+
+            GetOpponentsByNameCommand = new RelayCommand(() =>
+            {
+                var result = restService.Get<object>("Stat/OpponentsByName");
+
+                string jsonString = JsonConvert.SerializeObject(result, Formatting.Indented);
+
+                string caption = "OpponentsByName";
+                MessageBoxButton button = MessageBoxButton.OK;
+                MessageBoxImage icon = MessageBoxImage.Information;
+
+                MessageBox.Show(jsonString, caption, button, icon, MessageBoxResult.OK);
+            });
 
             CreateCompetiorCommand = new RelayCommand(() =>
             {

@@ -18,23 +18,23 @@
         </Grid.ColumnDefinitions>
         <Grid Grid.Column="0">
             <Grid.RowDefinitions>
+                <RowDefinition Height="50"/>
+                <RowDefinition Height="50"/>
+                <RowDefinition Height="50"/>
+                <RowDefinition Height="50"/>
+                <RowDefinition Height="50"/>
                 <RowDefinition Height="*"/>
                 <RowDefinition Height="auto"/>
                 <RowDefinition Height="auto"/>
                 <RowDefinition Height="auto"/>
             </Grid.RowDefinitions>
-            <ListBox Grid.Row="0" ItemsSource="{Binding CompetitorsByBoatCategory}">
-                <ListBox.ItemTemplate>
-                    <DataTemplate>
-                        <StackPanel Orientation="Horizontal">
-                            <Label Content="{Binding Key}" FontWeight="Bold"/>
-                            <Label Content="Age group"/>
-                            <Label Content="{Binding Value}"/>
-                        </StackPanel>
-                    </DataTemplate>
-                </ListBox.ItemTemplate>
-            </ListBox>
-            <ListBox Grid.Row="1" ItemsSource="{Binding Categories}" SelectedItem="{Binding SelectedCategory}">
+            <Button  Grid.Row="0" Content="Get CompetitorsByBoatCategory" Command="{Binding GetCompetitorsByBoatCategoryCommand}" Margin="5" Padding="5"/>
+            <Button  Grid.Row="1" Content="Get CompetitorWithAllRelevantData" Command="{Binding GetCompetitorWithAllRelevantDataCommand}" Margin="5" Padding="5"/>
+            <Button  Grid.Row="2" Content="Get AVGAge" Command="{Binding GetAVGAgeCommand}" Margin="5" Padding="5"/>
+            <Button  Grid.Row="3" Content="Get Competition_BasedOnCompetitorsNameAndNation" Command="{Binding GetCompetition_BasedOnCompetitorsNameAndNationCommand}" Margin="5" Padding="5"/>
+            <Button  Grid.Row="4" Content="Get OpponentsByName" Command="{Binding GetOpponentsByNameCommand}" Margin="5" Padding="5"/>
+          
+            <ListBox Grid.Row="5" ItemsSource="{Binding Categories}" SelectedItem="{Binding SelectedCategory}">
                 <ListBox.ItemTemplate>
                     <DataTemplate>
                         <StackPanel Orientation="Horizontal">
@@ -47,12 +47,12 @@
                     </DataTemplate>
                 </ListBox.ItemTemplate>
             </ListBox>
-            <StackPanel Grid.Row="2" Orientation="Horizontal" VerticalAlignment="Bottom" HorizontalAlignment="Center">
+            <StackPanel Grid.Row="6" Orientation="Horizontal" VerticalAlignment="Bottom" HorizontalAlignment="Center">
                 <Button Content="Create" Command="{Binding CreateCategoryCommand}" Margin="10"/>
                 <Button Content="Delete" Command="{Binding DeleteCategoryCommand}" Margin="10"/>
                 <Button Content="Update" Command="{Binding UpdateCategoryCommand}" Margin="10"/>
             </StackPanel>
-            <StackPanel Grid.Row="3" Orientation="Horizontal" VerticalAlignment="Bottom" HorizontalAlignment="Center">
+            <StackPanel Grid.Row="7" Orientation="Horizontal" VerticalAlignment="Bottom" HorizontalAlignment="Center">
                 <Label Content="ID:"/>
                 <TextBox Text="{Binding SelectedCategory.CategoryNumber}" Width="20"/>
                 <Label Content="Age group:"/>

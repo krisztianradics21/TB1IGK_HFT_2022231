@@ -285,7 +285,7 @@ namespace TB1IGK_HFT_2022231.WpfClient
         bool hasSignalR;
         Type type = typeof(T);
 
-        public RestCollection(string baseurl, string endpoint, string hub = null)
+        public RestCollection(string baseurl, string endpoint, string hub = null, string forceEnpoint = null)
         {
             hasSignalR = hub != null;
             this.rest = new RestService(baseurl, endpoint);
@@ -307,23 +307,30 @@ namespace TB1IGK_HFT_2022231.WpfClient
                     }
                     else
                     {
-                        Init();
+                        Init(forceEnpoint);
                     }
 
                 });
                 this.notify.AddHandler<T>(type.Name + "Updated", (T item) =>
                 {
-                    Init();
+                    Init(forceEnpoint);
                 });
 
                 this.notify.Init();
             }
-            Init();
+            Init(forceEnpoint);
         }
 
-        private async Task Init()
+        public async Task Init(string forceEnpoint = null)
         {
-            items = await rest.GetAsync<T>(typeof(T).Name);
+            var endpoint = typeof(T).Name;
+
+            if (forceEnpoint != null)
+            {
+                endpoint = forceEnpoint;
+            }
+
+            items = await rest.GetAsync<T>(endpoint);
             CollectionChanged?.Invoke(this, new NotifyCollectionChangedEventArgs(NotifyCollectionChangedAction.Reset));
         }
 
