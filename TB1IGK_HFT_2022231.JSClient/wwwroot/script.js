@@ -320,7 +320,7 @@ function showupdate_category(id) {
     setElementValueById('ageGrouptoupdate', category.ageGroup);
     setElementValueById('boatCategorytoupdate', category.boatCategory);
 
-    setElelmentVisibilityById('updateformdivcategory', DISPLAY_VALUES.flex);
+    //setElelmentVisibilityById('updateformdivcategory', DISPLAY_VALUES.flex);
 
     IdToUpdateCategory = id;
 }
@@ -342,11 +342,13 @@ function showupdate_competition(id) {
 
     edit(TAB_UIDS.competitions);
 
-    document.getElementById('competitorIDtoupdate').value = competitions.find(t => t['id'] == id)['competitorID'];
-    document.getElementById('opponentIDtoupdate').value = competitions.find(t => t['id'] == id)['opponentID'];
-    document.getElementById('numberOfRacesAgainstEachOthertoupdate').value = competitions.find(t => t['id'] == id)['numberOfRacesAgainstEachOther'];
-    document.getElementById('locationtoupdate').value = competitions.find(t => t['id'] == id)['location'];
-    document.getElementById('distancetoupdate').value = competitions.find(t => t['id'] == id)['distance'];
+    const competition = competitions.find(t => t.id == id)
+
+    setElementValueById('competitorIDtoupdate', competition.competitorID);
+    setElementValueById('opponentIDtoupdate', competition.opponentID);
+    setElementValueById('numberOfRacesAgainstEachOthertoupdate', competition.numberOfRacesAgainstEachOther);
+    setElementValueById('locationtoupdate', competition.location);
+    setElementValueById('distancetoupdate', competition.distance);
 
     IdToUpdateCompetition = id;
 }

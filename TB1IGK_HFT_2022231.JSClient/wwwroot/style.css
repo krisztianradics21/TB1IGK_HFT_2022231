@@ -60,64 +60,64 @@ table{
 th,td{
     padding: 5px;
 }
-#competitorsEditFrom {
-    display: none;
+#competitorsEditForm {
+    display: flex;
     flex-direction: column;
     margin-bottom: 20px;
 }
 
-    #competitorsEditFrom label, button, input {
+    #competitorsEditForm label, button, input {
         margin: 10px;
         padding: 7px;
     }
 
-    #competitorsEditFrom label {
+    #competitorsEditForm label {
         font-weight: bolder;
     }
-#competitorsAddFrom{
+#competitorsAddForm {
     display: flex;
     flex-direction: column;
     margin-bottom: 10px;
 }
-#competitorsAddFrom label, button, input{
+#competitorsAddForm label, button, input{
     margin: 10px;
     padding: 7px;
 }
-#competitorsAddFrom label{
+#competitorsAddForm label {
     font-weight: bolder;
 }
 
-#categoriesEditFrom {
-    display: none;
+#categoriesEditForm {
+    display: flex;
     flex-direction: column;
     margin-bottom: 20px;
 }
 
-    #categoriesEditFrom label, button, input {
+    #categoriesEditForm label, button, input {
         margin: 10px;
         padding: 7px;
     }
 
-    #categoriesEditFrom label {
+    #categoriesEditFormlabel {
         font-weight: bolder;
     }
-#categoriesAddFrom{
+#categoriesAddForm {
     display: flex;
     flex-direction: column;
     margin-bottom: 10px;
 }
 
-#categoriesAddFrom label, button, input{
+#categoriesAddForm label, button, input{
         margin: 10px;
         padding: 7px;
 }
 
-#categoriesAddFrom label{
+#categoriesAddForm label{
         font-weight: bolder;
 }
 
 #competitionsEditForm {
-    display: none;
+    display: flex;
     flex-direction: column;
     margin-bottom: 20px;
 }
