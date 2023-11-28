@@ -8,135 +8,180 @@
     <link rel="stylesheet" href="style.css" />
 </head>
 <body>
-    <h1>Competitor Catalog</h1>
 
-    <div id="formdiv">
-        <label>Competitor name</label>
-        <input type="text" id="name" />
-        <label>Age</label>
-        <input type="text" id="age" />
-        <label>Competiton ID</label>
-        <input type="text" id="competitonID" />
-        <label>Category ID</label>
-        <input type="text" id="categoryID" />
-        <label>Nation (3 capital letters)</label>
-        <input type="text" id="nation" />
-        <button type="button" onclick="create_competitor()">Add</button>
+
+    <div class="tab">
+        <button id="competitorsTab" class="tablinks" onclick="openTab(event, 'competitors')">Competitor Catalog</button>
+        <button id="categoriesTab" class="tablinks" onclick="openTab(event, 'categories')">Category Catalog</button>
+        <button id="competitionsTab" class="tablinks" onclick="openTab(event, 'competitions')">Competition Catalog</button>
+        <button id="otherDataTab" class="tablinks" onclick="openTab(event, 'otherData')">Other Data</button>
     </div>
 
-    <div id="updateformdiv">
-        <label>Competitor update</label>
-        <form id="uodateForm">
-            <label for="nameToUpdate">Competitor name</label>
-            <input type="text" id="nameToUpdate" />
+    <div id="competitors" class="tabcontent">
+
+        <div id="competitorsAddForm" class="hidden">
+            <label>Competitor name</label>
+            <input type="text" id="name" />
             <label>Age</label>
-            <input type="text" id="agetoupdate" />
+            <input type="text" id="age" />
             <label>Competiton ID</label>
-            <input type="text" id="competitonIDtoupdate" />
+            <input type="text" id="competitonID" />
             <label>Category ID</label>
-            <input type="text" id="categoryIDtoupdate" />
+            <input type="text" id="categoryID" />
             <label>Nation (3 capital letters)</label>
-            <input type="text" id="nationtoupdate" />
-            <button type="button" onclick="update_competitor()">Update</button>
-        </form>
+            <input type="text" id="nation" />
+            <button type="button" onclick="create_competitor()">Save</button>
+            <button type="button" onclick="closeAllPanelsAndShowTable('competitors')">Cancel</button>
+        </div>
 
+        <div id="competitorsEditForm" class="hidden">
+            <label>Competitor update</label>
+            <form id="uodateForm">
+                <label for="nameToUpdate">Competitor name</label>
+                <input type="text" id="nameToUpdate" />
+                <label>Age</label>
+                <input type="text" id="agetoupdate" />
+                <label>Competiton ID</label>
+                <input type="text" id="competitonIDtoupdate" />
+                <label>Category ID</label>
+                <input type="text" id="categoryIDtoupdate" />
+                <label>Nation (3 capital letters)</label>
+                <input type="text" id="nationtoupdate" />
+                <button type="button" onclick="update_competitor()">Update</button>
+            </form>
+
+        </div>
+
+        <div id="competitorsTable">
+
+            <button id="competitorsAddButton" onclick="add('competitors')">Add Competitor</button>
+
+            <table>
+                <thread>
+                    <tr>
+                        <th>Id</th>
+                        <th>Name</th>
+                        <th>Age</th>
+                        <th>CompetitonID</th>
+                        <th>CategoryID</th>
+                        <th>Nation</th>
+                        <th>Actions</th>
+                    </tr>
+                </thread>
+                <tbody id="resultarea">
+                </tbody>
+            </table>
+        </div>
     </div>
 
-    <table>
-        <thread>
-            <tr>
-                <th>Id</th>
-                <th>Name</th>
-                <th>Age</th>
-                <th>CompetitonID</th>
-                <th>CategoryID</th>
-                <th>Nation</th>
-                <th>Actions</th>
-            </tr>
-        </thread>
-        <tbody id="resultarea">
-        </tbody>
-    </table>
+    <div id="categories" class="tabcontent">
 
-    <h1>Category Catalog</h1>
+        <div id="categoriesAddForm" class="hidden">
+        <input type="text" id="categoryNumber" />-->
+            <label>Age group</label>
+            <input type="text" id="ageGroup" />
+            <label>Boat category</label>
+            <input type="text" id="boatCategory" />
+            <button type="button" onclick="create_category()">Save</button>
+            <button type="button" onclick="closeAllPanelsAndShowTable('categories')">Cancel</button>
 
-    <div id="formdivcategory">
-        <label>Age group</label>
-        <input type="text" id="ageGroup" />
-        <label>Boat category</label>
-        <input type="text" id="boatCategory" />
-        <button type="button" onclick="create_category()">Add</button>
+        </div>
+
+        <div id="categoriesEditForm" class="hidden">
+            <label>Category update</label>
+        <input type="text" id="categoryNumbertoupdate" />-->
+            <label>Age Group</label>
+            <input type="text" id="ageGrouptoupdate" />
+            <label>Boat category</label>
+            <input type="text" id="boatCategorytoupdate" />
+            <button type="button" onclick="update_category()">Update</button>
+            <button type="button" onclick="closeAllPanelsAndShowTable('categories')">Cancel</button>
+
+        </div>
+
+        <div id="categoriesTable">
+
+            <button id="categoriesAddButton" onclick="add('categories')">Add Category</button>
+
+            <table>
+                <thread>
+                    <tr>
+                        <th>CategoryNumber</th>
+                        <th>AgeGroup</th>
+                        <th>BoatCategory</th>
+                        <th>Actions</th>
+                    </tr>
+                </thread>
+                <tbody id="categoryresultarea">
+                </tbody>
+            </table>
+        </div>
     </div>
 
-    <div id="updateformdivcategory">
-        <label>Category update</label>
-        <label>Age Group</label>
-        <input type="text" id="ageGrouptoupdate" />
-        <label>Boat category</label>
-        <input type="text" id="boatCategorytoupdate" />
-        <button type="button" onclick="update_category()">Update</button>
+    <div id="competitions" class="tabcontent">
+
+        <div id="competitionsAddForm" class="hidden">
+            <label>Competitor ID</label>
+            <input type="text" id="competitorID" />
+            <label>Opponent ID</label>
+            <input type="text" id="opponentID" />
+            <label>Number Of Races Against Each Other</label>
+            <input type="text" id="numberOfRacesAgainstEachOther" />
+            <label>Location</label>
+            <input type="text" id="location" />
+            <label>Distance (between 200-1000)</label>
+            <input type="text" id="distance" />
+            <button type="button" onclick="create_competition()">Save</button>
+            <button type="button" onclick="closeAllPanelsAndShowTable('competitions')">Cancel</button>
+
+        </div>
+
+        <div id="competitionsEditForm" class="hidden">
+            <label>Competitor update</label>
+            <label>Competitor ID</label>
+            <input type="text" id="competitorIDtoupdate" />
+            <label>Opponent ID</label>
+            <input type="text" id="opponentIDtoupdate" />
+            <label>Number Of Races Against Each Other</label>
+            <input type="text" id="numberOfRacesAgainstEachOthertoupdate" />
+            <label>Location</label>
+            <input type="text" id="locationtoupdate" />
+            <label>Distance (between 200-1000)</label>
+            <input type="text" id="distancetoupdate" />
+            <button type="button" onclick="update_competition()">Update</button>
+            <button type="button" onclick="closeAllPanelsAndShowTable('competitions')">Cancel</button>
+
+        </div>
+
+
+        <div id="competitionsTable">
+            <button id="competitionsAddButton" onclick="add('competitions')">Add Competition</button>
+
+            <table>
+                <thread>
+                    <tr>
+                        <th>ID</th>
+                        <th>Competitor ID</th>
+                        <th>Opponent ID</th>
+                        <th>Number of races against each other</th>
+                        <th>Location</th>
+                        <th>Distance</th>
+                        <th>Actions</th>
+                    </tr>
+                </thread>
+                <tbody id="competitionresultarea">
+                </tbody>
+            </table>
+        </div>
     </div>
 
 
-    <table>
-        <thread>
-            <tr>
-                <th>CategoryNumber</th>
-                <th>AgeGroup</th>
-                <th>BoatCategory</th>
-                <th>Actions</th>
-            </tr>
-        </thread>
-        <tbody id="categoryresultarea">
-        </tbody>
-    </table>
+    <div id="otherData" class="tabcontent">
+        <button onclick="getCompetitorWithAllRelevantData()">getCompetitorWithAllRelevantData</button>
 
-    <h1>Competition Catalog</h1>
-
-    <div id="formdivcompetition">
-        <label>Competitor ID</label>
-        <input type="text" id="competitorID" />
-        <label>Opponent ID</label>
-        <input type="text" id="opponentID" />
-        <label>Number Of Races Against Each Other</label>
-        <input type="text" id="numberOfRacesAgainstEachOther" />
-        <label>Location</label>
-        <input type="text" id="location" />
-        <label>Distance (between 200-1000)</label>
-        <input type="text" id="distance" />
-        <button type="button" onclick="create_competition()">Add</button>
+        <p id="almafa"></p>
     </div>
 
-    <div id="updateformdivcompetition">
-        <label>Competitor update</label>
-        <label>Competitor ID</label>
-        <input type="text" id="competitorIDtoupdate" />
-        <label>Opponent ID</label>
-        <input type="text" id="opponentIDtoupdate" />
-        <label>Number Of Races Against Each Other</label>
-        <input type="text" id="numberOfRacesAgainstEachOthertoupdate" />
-        <label>Location</label>
-        <input type="text" id="locationtoupdate" />
-        <label>Distance (between 200-1000)</label>
-        <input type="text" id="distancetoupdate" />
-        <button type="button" onclick="update_competition()">Update</button>
-    </div>
-
-    <table>
-        <thread>
-            <tr>
-                <th>ID</th>
-                <th>Competitor ID</th>
-                <th>Opponent ID</th>
-                <th>Number of races against each other</th>
-                <th>Location</th>
-                <th>Distance</th>
-                <th>Actions</th>
-            </tr>
-        </thread>
-        <tbody id="competitionresultarea">
-        </tbody>
-    </table>
 
     <h1>Non-crud methods</h1>
 

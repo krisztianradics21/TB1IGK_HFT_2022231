@@ -11,7 +11,8 @@
 
 const DISPLAY_VALUES = {
     flex: 'flex',
-    none: 'none'
+    none: 'none',
+    block: 'block'
 }
 const DEFAULT_HEADERS = { 'Content-Type': 'application/json', }
 
@@ -22,6 +23,26 @@ const XHR_TYPES = {
     delete: 'DELETE'
 }
 
+const TAB_UIDS= {
+    competitors: "competitors",
+    categories: "categories",
+    competitions: "competitions",
+    otherData: "otherData"
+}
+
+const TAB_QUERY_PARAM = 'currentTab';
+
+const ELEMENT_CLASSES = {
+    active: "active",
+    hidden: 'hidden'
+}
+
+const ID_POSFIXES = {
+    table: "Table",
+    add: 'AddForm',
+    edit: 'EditForm',
+}
+
 
 let competitors = [];
 let categories = [];
@@ -29,16 +50,68 @@ let competitions = [];
 let connection = null;
 
 
-getdata();
-getdata_category();
-getdata_competition();
-
 setupSignalR();
 
 let IdToUpdate = -1;
 let IdToUpdateCategory = -1;
 let IdToUpdateCompetition = -1;
 
+
+// Handle Tabs
+
+window.addEventListener('load', () => {
+    const currentTab = readCurrentTabFromQueryParams();
+
+    if (currentTab) {
+        openTab(document.getElementById(`${currentTab}Tab`), currentTab);
+        return;
+    }
+
+    openTab(document.getElementById('competitorsTab'), TAB_UIDS.competitors);
+})
+
+function openTab(evt, tabId) {
+
+
+
+    let tabcontent, tablinks;
+    tabcontent = document.getElementsByClassName("tabcontent");
+    for (let i = 0; i < tabcontent.length; i++) {
+        tabcontent[i].style.display = DISPLAY_VALUES.none;
+    }
+    tablinks = document.getElementsByClassName("tablinks");
+    for (let i = 0; i < tablinks.length; i++) {
+        removeClass(tablinks[i], ELEMENT_CLASSES.active);
+    }
+
+    setElelmentVisibilityById(tabId, DISPLAY_VALUES.block);
+    setQueryParams(TAB_QUERY_PARAM, tabId);
+
+    if (evt.currentTarget) {
+        addClass(evt.currentTarget, ELEMENT_CLASSES.active);
+    } else {
+        addClass(evt, ELEMENT_CLASSES.active);
+    }
+
+    if (tabId == TAB_UIDS.otherData) {
+        return;
+    }
+
+    switch (tabId) {
+        case TAB_UIDS.competitors:
+            getdata();
+            break
+        case TAB_UIDS.categories:
+            getdata_category();
+            break;
+        case TAB_UIDS.competitions:
+            getdata_competition();
+            break;
+    }
+
+    closeAllPanelsAndShowTable(tabId);
+
+}
 
 
 function setupSignalR() {
@@ -134,6 +207,7 @@ async function getdata_competition() {
 
 
 function display() {
+    closeAllPanelsAndShowTable('competitors');
     resetInnerHtmlById('resultarea');
     competitors.forEach(competitior => {
         document.getElementById('resultarea').innerHTML +=
@@ -150,30 +224,32 @@ function display() {
 }
 
 function display_category() {
+    closeAllPanelsAndShowTable('categories');
     resetInnerHtmlById('categoryresultarea');
     categories.forEach(category => {
         document.getElementById('categoryresultarea').innerHTML +=
             "<tr><td>" + category.categoryNumber + "</td><td>"
-            + category.ageGroup + "</td><td>"
-            + category.boatCategory + "</td><td>" +
-            `<button type="button" onclick="remove_category(${category.categoryNumber})">Delete</button>` +
-            `<button type="button" onclick="showupdate_category(${category.categoryNumber})">Update</button>`
+        + category.ageGroup + "</td><td>"
+        + category.boatCategory + "</td><td>" +
+        `<button type="button" onclick="remove_category(${category.categoryNumber})">Delete</button>` +
+        `<button type="button" onclick="showupdate_category(${category.categoryNumber})">Update</button>`
             + "</td></tr>";
     });
 }
 
 function display_competition() {
+    closeAllPanelsAndShowTable('competitions');
     resetInnerHtmlById('competitionresultarea');
     competitions.forEach(competition => {
         document.getElementById('competitionresultarea').innerHTML +=
             "<tr><td>" + competition.id + "</td><td>"
-            + competition.competitorID + "</td><td>"
-            + competition.opponentID + "</td><td>"
-            + competition.numberOfRacesAgainstEachOther + "</td><td>"
-            + competition.location + "</td><td>"
-            + competition.distance + "</td><td>" +
-            `<button type="button" onclick="remove_competition(${competition.id})">Delete</button>` +
-            `<button type="button" onclick="showupdate_competition(${competition.id})">Update</button>`
+        + competition.competitorID + "</td><td>"
+        + competition.opponentID + "</td><td>"
+        + competition.numberOfRacesAgainstEachOther + "</td><td>"
+        + competition.location + "</td><td>"
+        + competition.distance + "</td><td>" +
+        `<button type="button" onclick="remove_competition(${competition.id})">Delete</button>` +
+        `<button type="button" onclick="showupdate_competition(${competition.id})">Update</button>`
             + "</td></tr>";
     });
 }
@@ -208,6 +284,7 @@ function remove(url, id, successFn) {
 
 function showupdate_competitor(id) {
 
+
     const currentCompetitor = competitors.find(t => t.id == id);
 
     setElementValueById('nameToUpdate', currentCompetitor.name);
@@ -215,14 +292,13 @@ function showupdate_competitor(id) {
     setElementValueById('competitonIDtoupdate', currentCompetitor.competitonID);
     setElementValueById('categoryIDtoupdate', currentCompetitor.categoryID);
     setElementValueById('nationtoupdate', currentCompetitor.nation);
-
-    setElelmentVisibilityById('updateformdiv', DISPLAY_VALUES.flex);
+    edit(TAB_UIDS.competitors);
 
     IdToUpdate = id;
 }
 
 function update_competitor() {
-    setElelmentVisibilityById('updateformdiv', DISPLAY_VALUES.none);
+    closeAllPanelsAndShowTable(TAB_UIDS.competitors);
 
     const request = {
         id: IdToUpdate,
@@ -237,6 +313,7 @@ function update_competitor() {
 }
 
 function showupdate_category(id) {
+    edit(TAB_UIDS.categories);
 
     const category = categories.find(t => t.categoryNumber == id)
 
@@ -249,7 +326,7 @@ function showupdate_category(id) {
 }
 
 function update_category() {
-    setElelmentVisibilityById('updateformdivcategory', DISPLAY_VALUES.none);
+    closeAllPanelsAndShowTable(TAB_UIDS.categories);
 
     const request = {
         categoryNumber: IdToUpdateCategory,
@@ -262,17 +339,21 @@ function update_category() {
 }
 
 function showupdate_competition(id) {
+
+    edit(TAB_UIDS.competitions);
+
     document.getElementById('competitorIDtoupdate').value = competitions.find(t => t['id'] == id)['competitorID'];
     document.getElementById('opponentIDtoupdate').value = competitions.find(t => t['id'] == id)['opponentID'];
     document.getElementById('numberOfRacesAgainstEachOthertoupdate').value = competitions.find(t => t['id'] == id)['numberOfRacesAgainstEachOther'];
     document.getElementById('locationtoupdate').value = competitions.find(t => t['id'] == id)['location'];
     document.getElementById('distancetoupdate').value = competitions.find(t => t['id'] == id)['distance'];
-    document.getElementById('updateformdivcompetition').style.display = 'flex';
+
     IdToUpdateCompetition = id;
 }
 
 function update_competition() {
-    document.getElementById('updateformdivcompetition').style.display = 'none';
+    closeAllPanelsAndShowTable(TAB_UIDS.competitions);
+
     let competitorID = document.getElementById('competitorIDtoupdate').value;
     let opponentID = document.getElementById('opponentIDtoupdate').value;
     let numberOfRacesAgainstEachOther = document.getElementById('numberOfRacesAgainstEachOthertoupdate').value;
@@ -282,7 +363,7 @@ function update_competition() {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json', },
         body: JSON.stringify(
-            { competitorID: competitorID, id: IdToUpdateCompetition, opponentID: opponentID, numberOfRacesAgainstEachOther: numberOfRacesAgainstEachOther, location: location, distance: distance })
+            { competitorID: competitorID, id: IdToUpdateCompetition, opponentID: opponentID,  numberOfRacesAgainstEachOther: numberOfRacesAgainstEachOther, location: location, distance: distance })
     })
         .then(response => response)
         .then(data => {
@@ -429,7 +510,50 @@ function displayAvgAge(data) {
     document.getElementById('AvgAge').innerHTML = JSON.stringify(data)
 }
 
+
+function add(value) {
+    const tableElement = document.getElementById(`${value}${ID_POSFIXES.table}`);
+    const addFormElement = document.getElementById(`${value}${ID_POSFIXES.add}`);
+
+    addClass(tableElement, ELEMENT_CLASSES.hidden);
+    removeClass(addFormElement, ELEMENT_CLASSES.hidden);
+}
+
+function edit(value) {
+    const tableElement = document.getElementById(`${value}${ID_POSFIXES.table}`);
+    const editFormElement = document.getElementById(`${value}${ID_POSFIXES.edit}`);
+
+    addClass(tableElement, ELEMENT_CLASSES.hidden);
+    removeClass(editFormElement, ELEMENT_CLASSES.hidden);
+}
+
+
+function closeAllPanelsAndShowTable(value) {
+    const tableElement = document.getElementById(`${value}${ID_POSFIXES.table}`);
+    const addFormElement = document.getElementById(`${value}${ID_POSFIXES.add}`);
+    const editFormElement = document.getElementById(`${value}${ID_POSFIXES.edit}`);
+
+    addClass(addFormElement, ELEMENT_CLASSES.hidden);
+    addClass(editFormElement, ELEMENT_CLASSES.hidden);
+    removeClass(tableElement, ELEMENT_CLASSES.hidden);
+}
+
 // Helper functions
+
+// Query param handling
+
+function readCurrentTabFromQueryParams() {
+    const urlParams = new URLSearchParams(window.location.search);
+    return urlParams.get(TAB_QUERY_PARAM);
+
+}
+
+function setQueryParams(key, value) {
+    const searchParams = new URLSearchParams(window.location.search);
+    searchParams.set(key, value);
+    const newRelativePathQuery = window.location.pathname + "?" + searchParams.toString();
+    history.pushState(null, "", newRelativePathQuery);
+}
 
 // Dom manipulation
 function resetInnerHtmlById(id) {
@@ -448,6 +572,17 @@ function getElementValueById(id) {
     return document.getElementById(id).value
 }
 
+function addClass(element, className) {
+    if (!element.classList.contains(className)) {
+        element.classList.add(className);
+    }
+}
+
+function removeClass(element, className) {
+    if (element.classList.contains(className)) {
+        element.classList.remove(className);
+    }
+}
 
 
 // XHR

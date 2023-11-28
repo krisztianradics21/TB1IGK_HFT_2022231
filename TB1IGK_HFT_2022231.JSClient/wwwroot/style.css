@@ -1,4 +1,54 @@
-﻿table{
+﻿
+.hidden, .hidden button {
+    display: none !important;
+}
+
+
+
+.tab {
+    overflow: hidden;
+    border: 1px solid #ccc;
+    background-color: #f1f1f1 !important
+}
+
+.tab button {
+    background-color: inherit;
+    float: left;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    padding: 14px 16px;
+    transition: 0.3s;
+    font-size: 17px;
+}
+
+.tab button:hover {
+    background-color: #ddd;
+}
+
+.tab button.active {
+    background-color: #ccc;
+}
+
+.tabcontent {
+    display: none;
+    padding: 6px 12px;
+    border: 1px solid #ccc;
+    border-top: none;
+    animation: fadeEffect 1s; 
+}
+
+@keyframes fadeEffect {
+    from {
+        opacity: 0;
+    }
+
+    to {
+        opacity: 1;
+    }
+}
+
+table{
     width: 100%;
 }
 table, th, td{
@@ -10,87 +60,87 @@ table{
 th,td{
     padding: 5px;
 }
-#updateformdiv {
+#competitorsEditFrom {
     display: none;
     flex-direction: column;
     margin-bottom: 20px;
 }
 
-    #updateformdiv label, button, input {
+    #competitorsEditFrom label, button, input {
         margin: 10px;
         padding: 7px;
     }
 
-    #updateformdiv label {
+    #competitorsEditFrom label {
         font-weight: bolder;
     }
-#formdiv{
+#competitorsAddFrom{
     display: flex;
     flex-direction: column;
     margin-bottom: 10px;
 }
-#formdiv label, button, input{
+#competitorsAddFrom label, button, input{
     margin: 10px;
     padding: 7px;
 }
-#formdiv label{
+#competitorsAddFrom label{
     font-weight: bolder;
 }
 
-#updateformdivcategory {
+#categoriesEditFrom {
     display: none;
     flex-direction: column;
     margin-bottom: 20px;
 }
 
-    #updateformdivcategory label, button, input {
+    #categoriesEditFrom label, button, input {
         margin: 10px;
         padding: 7px;
     }
 
-    #updateformdivcategory label {
+    #categoriesEditFrom label {
         font-weight: bolder;
     }
-#formdivcategory{
+#categoriesAddFrom{
     display: flex;
     flex-direction: column;
     margin-bottom: 10px;
 }
 
-#formdivcategory label, button, input{
+#categoriesAddFrom label, button, input{
         margin: 10px;
         padding: 7px;
 }
 
-#formdivcategory label{
+#categoriesAddFrom label{
         font-weight: bolder;
 }
 
-#updateformdivcompetition {
+#competitionsEditForm {
     display: none;
     flex-direction: column;
     margin-bottom: 20px;
 }
 
-    #updateformdivcompetition label, button, input {
+    #competitionsEditForm label, button, input {
         margin: 10px;
         padding: 7px;
     }
 
-    #updateformdivcompetition label {
+    #competitionsEditForm label {
         font-weight: bolder;
     }
-#formdivcompetition {
+#competitionsAddForm {
     display: flex;
     flex-direction: column;
     margin-bottom: 10px;
 }
 
-#formdivcompetition label, button, input {
+#competitionsAddForm label, button, input {
         margin: 10px;
         padding: 7px;
 }
 
-#formdivcompetition label {
+#competitionsAddForm label {
         font-weight: bolder;
 }
