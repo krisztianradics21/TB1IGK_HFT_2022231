@@ -14,7 +14,7 @@
         <button id="competitorsTab" class="tablinks" onclick="openTab(event, 'competitors')">Competitor Catalog</button>
         <button id="categoriesTab" class="tablinks" onclick="openTab(event, 'categories')">Category Catalog</button>
         <button id="competitionsTab" class="tablinks" onclick="openTab(event, 'competitions')">Competition Catalog</button>
-        <button id="otherDataTab" class="tablinks" onclick="openTab(event, 'otherData')">Other Data</button>
+        <button id="otherDataTab" class="tablinks" onclick="openTab(event, 'otherData')">Non-Cruds</button>
     </div>
 
     <div id="competitors" class="tabcontent">
@@ -174,37 +174,7 @@
     <div id="otherData" class="tabcontent">
 
         <button onclick="getCompetitorWithAllRelevantData()">Competitors with all relevant data</button>
-        <p id="competitorwithallrelevantdata"></p>
-
-        <!--<div id="updateformdivcompetition">
-            <label>Competitor update</label>
-            <label>Competitor ID</label>
-            <input type="text" id="competitorIDtoupdate" />
-            <label>Opponent ID</label>
-            <input type="text" id="opponentIDtoupdate" />
-            <label>Number Of Races Against Each Other</label>
-            <input type="text" id="numberOfRacesAgainstEachOthertoupdate" />
-            <label>Location</label>
-            <input type="text" id="locationtoupdate" />
-            <label>Distance</label>
-            <input type="text" id="distancetoupdate" />
-            <button type="button" onclick="update_competition()">Update</button>
-        </div>-->
-
-        <!--<table>
-            <thread>
-                <tr>
-                    <th>competitorName</th>
-                    <th>competitorAge</th>
-                    <th>competitorNation</th>
-                    <th>competitionLocation</th>
-                    <th>ageGroup</th>
-                    <th>boatCategory</th>
-                </tr>
-            </thread>
-            <tbody id="CompetitorWithAllRelevantDataresultarea">
-            </tbody>
-        </table>-->
+        <p id="competitorwithallrelevantdata"></p>      
 
         <button onclick="getCompetitorsByBoatCategory()">Competitors by boat category</button>
         <p id="competitorsbyboatcategory"></p>

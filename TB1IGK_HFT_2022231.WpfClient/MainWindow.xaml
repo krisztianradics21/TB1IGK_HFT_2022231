@@ -5,7 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:TB1IGK_HFT_2022231.WpfClient"
         mc:Ignorable="d"
-        Title="MainWindow" Height="500" Width="1250">
+        Title="Kayak/Canoe" Height="500" Width="1250">
     <Window.DataContext>
         <local:MainWindowViewModel/>
     </Window.DataContext>
@@ -28,11 +28,11 @@
                 <RowDefinition Height="auto"/>
                 <RowDefinition Height="auto"/>
             </Grid.RowDefinitions>
-            <Button  Grid.Row="0" Content="Get CompetitorsByBoatCategory" Command="{Binding GetCompetitorsByBoatCategoryCommand}" Margin="5" Padding="5"/>
-            <Button  Grid.Row="1" Content="Get CompetitorWithAllRelevantData" Command="{Binding GetCompetitorWithAllRelevantDataCommand}" Margin="5" Padding="5"/>
-            <Button  Grid.Row="2" Content="Get AVGAge" Command="{Binding GetAVGAgeCommand}" Margin="5" Padding="5"/>
-            <Button  Grid.Row="3" Content="Get Competition_BasedOnCompetitorsNameAndNation" Command="{Binding GetCompetition_BasedOnCompetitorsNameAndNationCommand}" Margin="5" Padding="5"/>
-            <Button  Grid.Row="4" Content="Get OpponentsByName" Command="{Binding GetOpponentsByNameCommand}" Margin="5" Padding="5"/>
+            <Button  Grid.Row="0" Content="Competitors By Boat Category" Command="{Binding GetCompetitorsByBoatCategoryCommand}" Margin="5" Padding="5"/>
+            <Button  Grid.Row="1" Content="Competitor With All Relevant Data" Command="{Binding GetCompetitorWithAllRelevantDataCommand}" Margin="5" Padding="5"/>
+            <Button  Grid.Row="2" Content="Avarage Age" Command="{Binding GetAVGAgeCommand}" Margin="5" Padding="5"/>
+            <Button  Grid.Row="3" Content="Competition Based On Competitors Name And Nation" Command="{Binding GetCompetition_BasedOnCompetitorsNameAndNationCommand}" Margin="5" Padding="5"/>
+            <Button  Grid.Row="4" Content="Opponents By Name" Command="{Binding GetOpponentsByNameCommand}" Margin="5" Padding="5"/>
           
             <ListBox Grid.Row="5" ItemsSource="{Binding Categories}" SelectedItem="{Binding SelectedCategory}">
                 <ListBox.ItemTemplate>
@@ -115,7 +115,7 @@
                 <TextBox Grid.Row="0" Grid.Column="3" Text="{Binding SelectedCompetitor.Name}" Width="100"/>
                 <Label Grid.Row="1" Grid.Column="2" Content="Age:"/>
                 <TextBox Grid.Row="1" Grid.Column="3" Text="{Binding SelectedCompetitor.Age}" Width="50"/>
-                <Label Grid.Row="1" Grid.Column="0" Content="Nation:"/>
+                <Label Grid.Row="1" Grid.Column="0" Content="Nation (3 capital letter):"/>
                 <TextBox Grid.Row="1" Grid.Column="1" Text="{Binding SelectedCompetitor.Nation}" Width="100"/>
                 <Label Grid.Row="2" Grid.Column="0" Content="Competition ID:"/>
                 <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding SelectedCompetitor.CompetitonID}"   Width="100"/>
@@ -163,17 +163,17 @@
                     <Label Content="ID:"/>
                     <TextBox Text="{Binding SelectedCompetition.ID}" Width="20"/>
                     <Label Content="Competitor ID:"/>
-                    <TextBox Text="{Binding SelectedCompetition.CompetitorID}" Width="50"/>
+                    <TextBox Text="{Binding SelectedCompetition.CompetitorID}" Width="25"/>
                     <Label Content="Opponent ID:"/>
-                    <TextBox Text="{Binding SelectedCompetition.OpponentID}" Width="50"/>
+                    <TextBox Text="{Binding SelectedCompetition.OpponentID}" Width="25"/>
                 </StackPanel>
                 <StackPanel Orientation="Horizontal" VerticalAlignment="Bottom" HorizontalAlignment="Center">
                     <Label Content="Location:"/>
-                    <TextBox Text="{Binding SelectedCompetition.Location}" Width="100"/>
+                    <TextBox Text="{Binding SelectedCompetition.Location}" Width="50"/>
                     <Label Content="Number of races:"/>
-                    <TextBox Text="{Binding SelectedCompetition.NumberOfRacesAgainstEachOther}" Width="50"/>
-                    <Label Content="Distance:"/>
-                    <TextBox Text="{Binding SelectedCompetition.Distance}" Width="100"/>
+                    <TextBox Text="{Binding SelectedCompetition.NumberOfRacesAgainstEachOther}" Width="25"/>
+                    <Label Content="Distance (200-1000):"/>
+                    <TextBox Text="{Binding SelectedCompetition.Distance}" Width="50"/>
                 </StackPanel>
             </StackPanel>
         </Grid>
