@@ -5,7 +5,7 @@
     getCompetitorsByBoatCategory: "stat/CompetitorsByBoatCategory",
     getCompetitorWithAllRelevantData: "stat/CompetitorWithAllRelevantData",
     getOpponentsByName: "stat/OpponentsByName",
-    getCompetition_BasedOnCompetitorsNameAndNation: "stat/Competition_BasedOnCompetitorsNameAndNation",
+    getCompetitionBasedOnCompetitorsNameAndNation: "stat/Competition_BasedOnCompetitorsNameAndNation",
     getAvgAge: "stat/AVGAge"
 }
 
@@ -52,17 +52,24 @@ let connection = null;
 
 setupSignalR();
 
-let IdToUpdate = -1;
-let IdToUpdateCategory = -1;
-let IdToUpdateCompetition = -1;
+let competitiorIdToUpdate = -1;
+let categoryIdToUpdate = -1;
+let competitionIdToUpdate = -1;
 
+/**
+ * [ HANDLE TABS ]
+ */
 
-// Handle Tabs
+/**
+ *  When the window loads, ead the query params, or set the default tab
+ */
 
 window.addEventListener('load', () => {
+    // read the current tab from query param
     const currentTab = readCurrentTabFromQueryParams();
 
-    if (currentTab) {
+    // if the query param exists, open it
+    if (currentTab && !!TAB_UIDS[currentTab]) {
         openTab(document.getElementById(`${currentTab}Tab`), currentTab);
         return;
     }
@@ -70,50 +77,70 @@ window.addEventListener('load', () => {
     openTab(document.getElementById('competitorsTab'), TAB_UIDS.competitors);
 })
 
+/**
+ * Open the given tab
+ * @param {HtmlButtonElement} evt the div element on the tabs
+ * @param {TAB_UIDS} tabId the tab to open
+ * @returns
+ */
+
 function openTab(evt, tabId) {
 
-
-
     let tabcontent, tablinks;
+
+    // get all tab contents, and set them to display.none
     tabcontent = document.getElementsByClassName("tabcontent");
     for (let i = 0; i < tabcontent.length; i++) {
         tabcontent[i].style.display = DISPLAY_VALUES.none;
     }
+
+    // get all tab links, and set them to display.none
     tablinks = document.getElementsByClassName("tablinks");
     for (let i = 0; i < tablinks.length; i++) {
         removeClass(tablinks[i], ELEMENT_CLASSES.active);
     }
 
+    // display the selected tab
     setElelmentVisibilityById(tabId, DISPLAY_VALUES.block);
+
+    // update the query params to the given tab
     setQueryParams(TAB_QUERY_PARAM, tabId);
 
+    // if the evt input has a currentTarget (only exists if the fuction was called from the index.html)
     if (evt.currentTarget) {
+        // display it
         addClass(evt.currentTarget, ELEMENT_CLASSES.active);
     } else {
+        // else call the same fuction for the evt input (inly if this function is called from the js)
         addClass(evt, ELEMENT_CLASSES.active);
     }
 
+    // return if the tab is the other details tab
     if (tabId == TAB_UIDS.otherData) {
         return;
     }
 
+    // else generate the display for the sleected tab
     switch (tabId) {
         case TAB_UIDS.competitors:
-            getdata();
+            getCompetitorsTableData();
             break
         case TAB_UIDS.categories:
-            getdata_category();
+            getCategoriesTableData();
             break;
         case TAB_UIDS.competitions:
-            getdata_competition();
+            getCompetitionsTableData();
             break;
     }
 
+    // if add or edit is open, close it
     closeAllPanelsAndShowTable(tabId);
 
 }
 
-
+/**
+ * Sets up the signal for the CRUD methods
+ */
 function setupSignalR() {
     connection = new signalR.HubConnectionBuilder()
         .withUrl("http://localhost:55475/hub")
@@ -121,37 +148,37 @@ function setupSignalR() {
         .build();
 
     connection.on("CompetitorCreated", (user, message) => {
-        getdata();
+        getCompetitorsTableData();
     });
 
     connection.on("CompetitorDeleted", (user, message) => {
-        getdata();
+        getCompetitorsTableData();
     });
 
     connection.on("CompetitorUpdated", (user, message) => {
-        getdata();
+        getCompetitorsTableData();
     });
     connection.on("CategoryCreated", (user, message) => {
-        getdata_category();
+        getCategoriesTableData();
     });
 
     connection.on("CategoryDeleted", (user, message) => {
-        getdata_category();
+        getCategoriesTableData();
     });
 
     connection.on("CategoryUpdated", (user, message) => {
-        getdata_category();
+        getCategoriesTableData();
     });
     connection.on("CompetitionCreated", (user, message) => {
-        getdata();
+        getCompetitorsTableData();
     });
 
     connection.on("CompetitionDeleted", (user, message) => {
-        getdata();
+        getCompetitorsTableData();
     });
 
     connection.on("CompetitionUpdated", (user, message) => {
-        getdata();
+        getCompetitorsTableData();
     });
 
     connection.onclose(async () => {
@@ -160,6 +187,10 @@ function setupSignalR() {
     start();
 }
 
+/**
+ * Waits for the conntection to start
+ * Retries after 5 seconds
+ */
 async function start() {
     try {
         await connection.start();
@@ -170,43 +201,58 @@ async function start() {
     }
 };
 
-// Data init
+/**
+ *   [ DISPLAY THE DATA ]
+ */
 
-function getdata() {
+/**
+ * Gets the data for the competitors table
+ */
+function getCompetitorsTableData() {
 
-    xhrGet(API_URLS.competitor)
+    fetchGet(API_URLS.competitor)
         .then(response => response.json())
         .then(data => {
             competitors = data
-            display();
+            displayCompetitorsTableData();
         })
 
 }
 
-async function getdata_category() {
+/**
+ * Gets the data for the categories table
+ */
+async function getCategoriesTableData() {
 
-    xhrGet(API_URLS.category)
+    fetchGet(API_URLS.category)
         .then(response => response.json())
         .then(data => {
             categories = data
-            display_category();
+            displayCategoriesTableData();
         })
 }
 
-async function getdata_competition() {
+/**
+ * Gets the data for the competitions table
+ */
+async function getCompetitionsTableData() {
 
-    xhrGet(API_URLS.competition)
+    fetchGet(API_URLS.competition)
         .then(response => response.json())
         .then(data => {
             competitions = data
-            display_competition();
+            displayCompetitionsTableData();
         })
 }
 
-// Display
+/**
+ *  [ DISPLAY DATA ]
+ */
 
-
-function display() {
+/**
+ * Display the data for the competitors table
+ */
+function displayCompetitorsTableData() {
     closeAllPanelsAndShowTable('competitors');
     resetInnerHtmlById('resultarea');
     competitors.forEach(competitior => {
@@ -217,13 +263,16 @@ function display() {
             + competitior.competitonID + "</td><td>"
             + competitior.categoryID + "</td><td>"
             + competitior.nation + "</td><td>" +
-            `<button type="button" onclick="remove_competitor(${competitior.id})">Delete</button>` +
-            `<button type="button" onclick="showupdate_competitor(${competitior.id})">Update</button>`
+            `<button type="button" onclick="removeCompetitor(${competitior.id})">Delete</button>` +
+            `<button type="button" onclick="showCompetitorUpdateForm(${competitior.id})">Update</button>`
             + "</td></tr>";
     });
 }
 
-function display_category() {
+/**
+ * Display the data for the categories table
+ */
+function displayCategoriesTableData() {
     closeAllPanelsAndShowTable('categories');
     resetInnerHtmlById('categoryresultarea');
     categories.forEach(category => {
@@ -231,13 +280,16 @@ function display_category() {
             "<tr><td>" + category.categoryNumber + "</td><td>"
         + category.ageGroup + "</td><td>"
         + category.boatCategory + "</td><td>" +
-        `<button type="button" onclick="remove_category(${category.categoryNumber})">Delete</button>` +
-        `<button type="button" onclick="showupdate_category(${category.categoryNumber})">Update</button>`
+        `<button type="button" onclick="removeCategory(${category.categoryNumber})">Delete</button>` +
+        `<button type="button" onclick="showCategoryUpdateForm(${category.categoryNumber})">Update</button>`
             + "</td></tr>";
     });
 }
 
-function display_competition() {
+/**
+ * Display the data for the competitions table
+ */
+function displayCompetitionsTableData() {
     closeAllPanelsAndShowTable('competitions');
     resetInnerHtmlById('competitionresultarea');
     competitions.forEach(competition => {
@@ -248,30 +300,49 @@ function display_competition() {
         + competition.numberOfRacesAgainstEachOther + "</td><td>"
         + competition.location + "</td><td>"
         + competition.distance + "</td><td>" +
-        `<button type="button" onclick="remove_competition(${competition.id})">Delete</button>` +
-        `<button type="button" onclick="showupdate_competition(${competition.id})">Update</button>`
+        `<button type="button" onclick="removeCompetition(${competition.id})">Delete</button>` +
+        `<button type="button" onclick="showCompetitionUpdateForm(${competition.id})">Update</button>`
             + "</td></tr>";
     });
 }
 
 
-// Remove
+/**
+ *  [ REMOVE DATA ]
+ */
 
-
-function remove_competitor(id) {
-    remove(API_URLS.competitor, id, getdata);
+/**
+ * Removes the competitior with the provided id, and refreshes the table
+ * @param {any} id
+ */
+function removeCompetitor(id) {
+    remove(API_URLS.competitor, id, getCompetitorsTableData);
 }
 
-function remove_category(categoryNumber) {
-    remove(API_URLS.category, categoryNumber, getdata_category);
+/**
+ * Removes the category with the provided id, and refreshes the table
+ * @param {any} id
+ */
+function removeCategory(categoryNumber) {
+    remove(API_URLS.category, categoryNumber, getCategoriesTableData);
 }
 
-function remove_competition(id) {
-    remove(API_URLS.competition, id, getdata_competition);
+/**
+ * Removes the competition with the provided id, and refreshes the table
+ * @param {any} id
+ */
+function removeCompetition(id) {
+    remove(API_URLS.competition, id, getCompetitionsTableData);
 }
 
+/**
+ * Calles the given URL with the given ID, then on success calles the provided successFn
+ * @param {any} url
+ * @param {any} id
+ * @param {any} successFn
+ */
 function remove(url, id, successFn) {
-    xhrDelete(url, id)
+    fetchDelete(url, id)
         .then(response => response)
         .then(data => {
             console.log('Success:', data);
@@ -280,10 +351,15 @@ function remove(url, id, successFn) {
         .catch((error) => { console.error('Error:', error); });
 }
 
-// Update
+/**
+ *  [ UPDATE THE DATA ]
+ */
 
-function showupdate_competitor(id) {
-
+/**
+ * Display the competitor update form for the given id
+ * @param {any} id
+ */
+function showCompetitorUpdateForm(id) {
 
     const currentCompetitor = competitors.find(t => t.id == id);
 
@@ -292,16 +368,20 @@ function showupdate_competitor(id) {
     setElementValueById('competitonIDtoupdate', currentCompetitor.competitonID);
     setElementValueById('categoryIDtoupdate', currentCompetitor.categoryID);
     setElementValueById('nationtoupdate', currentCompetitor.nation);
+
     edit(TAB_UIDS.competitors);
 
-    IdToUpdate = id;
+    competitiorIdToUpdate = id;
 }
 
-function update_competitor() {
+/**
+ * Updated the selected competitor
+ */
+function updateCompetitor() {
     closeAllPanelsAndShowTable(TAB_UIDS.competitors);
 
     const request = {
-        id: IdToUpdate,
+        id: competitiorIdToUpdate,
         name: getElementValueById('nameToUpdate'),
         age: getElementValueById('agetoupdate'),
         competitonID: getElementValueById('competitonIDtoupdate'),
@@ -309,38 +389,46 @@ function update_competitor() {
         nation: getElementValueById('nationtoupdate')
     };
 
-    update(API_URLS.competitor, request, getdata);
+    update(API_URLS.competitor, request, getCompetitorsTableData);
 }
 
-function showupdate_category(id) {
-    edit(TAB_UIDS.categories);
+/**
+ * Display the category update form for the given id
+ * @param {any} id
+ */
+function showCategoryUpdateForm(id) {
 
     const category = categories.find(t => t.categoryNumber == id)
 
     setElementValueById('ageGrouptoupdate', category.ageGroup);
     setElementValueById('boatCategorytoupdate', category.boatCategory);
 
-    //setElelmentVisibilityById('updateformdivcategory', DISPLAY_VALUES.flex);
+    edit(TAB_UIDS.categories);
 
-    IdToUpdateCategory = id;
+    categoryIdToUpdate = id;
 }
 
-function update_category() {
+/**
+ * Updated the selected category
+ */
+function updateCategory() {
     closeAllPanelsAndShowTable(TAB_UIDS.categories);
 
     const request = {
-        categoryNumber: IdToUpdateCategory,
+        categoryNumber: categoryIdToUpdate,
         ageGroup: getElementValueById('ageGrouptoupdate'),
         boatCategory: getElementValueById('boatCategorytoupdate')
     }
 
-    update(API_URLS.category, request, getdata_category);
+    update(API_URLS.category, request, getCategoriesTableData);
 
 }
 
-function showupdate_competition(id) {
-
-    edit(TAB_UIDS.competitions);
+/**
+ * Display the competition update form for the given id
+ * @param {any} id
+ */
+function showCompetitionUpdateForm(id) {
 
     const competition = competitions.find(t => t.id == id)
 
@@ -350,33 +438,40 @@ function showupdate_competition(id) {
     setElementValueById('locationtoupdate', competition.location);
     setElementValueById('distancetoupdate', competition.distance);
 
-    IdToUpdateCompetition = id;
+    edit(TAB_UIDS.competitions);
+
+
+    competitionIdToUpdate = id;
 }
 
-function update_competition() {
+/**
+ * Updated the selected competition
+ */
+function updateCompetition() {
+    
     closeAllPanelsAndShowTable(TAB_UIDS.competitions);
 
-    let competitorID = document.getElementById('competitorIDtoupdate').value;
-    let opponentID = document.getElementById('opponentIDtoupdate').value;
-    let numberOfRacesAgainstEachOther = document.getElementById('numberOfRacesAgainstEachOthertoupdate').value;
-    let location = document.getElementById('locationtoupdate').value;
-    let distance = document.getElementById('distancetoupdate').value;
-    fetch('http://localhost:55475/competition', {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json', },
-        body: JSON.stringify(
-            { competitorID: competitorID, id: IdToUpdateCompetition, opponentID: opponentID,  numberOfRacesAgainstEachOther: numberOfRacesAgainstEachOther, location: location, distance: distance })
-    })
-        .then(response => response)
-        .then(data => {
-            console.log('Success:', data);
-            getdata_competition();
-        })
-        .catch((error) => { console.error('Error:', error); });
+    const request = {
+        competitorID: getElementValueById('competitorIDtoupdate'),
+        id: competitionIdToUpdate,
+        opponentID: getElementValueById('opponentIDtoupdate'),
+        numberOfRacesAgainstEachOther: getElementValueById('numberOfRacesAgainstEachOthertoupdate'),
+        location: getElementValueById('locationtoupdate'),
+        distance: getElementValueById('distancetoupdate'),
+    }
+
+    update(API_URLS.competition, request, getCompetitionsTableData);
+
 }
 
+/**
+ * Calles the given URL with the given ID, then on success calles the provided successFn
+ * @param {any} url
+ * @param {any} id
+ * @param {any} successFn
+ */
 function update(url, request, successFn) {
-    xhrPut(url, request)
+    fetchPut(url, request)
         .then(response => response)
         .then(data => {
             console.log('Success:', data);
@@ -385,11 +480,14 @@ function update(url, request, successFn) {
         .catch((error) => { console.error('Error:', error); });
 }
 
+/**
+ *  [ CREATE THE DATA ]
+ */
 
-
-
-
-function create_competitor() {
+/**
+ * Creates a competitior
+ */
+function createCompetitor() {
 
     const request = {
         name: getElementValueById('name'),
@@ -399,49 +497,49 @@ function create_competitor() {
         nation: getElementValueById('nation')
     }
 
-    create(API_URLS.competitor, request, getdata)
+    create(API_URLS.competitor, request, getCompetitorsTableData)
 
 }
 
-function create_category() {
-    let ageGroup = document.getElementById('ageGroup').value;
-    let boatCategory = document.getElementById('boatCategory').value;
-    fetch('http://localhost:55475/category', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', },
-        body: JSON.stringify(
-            { ageGroup: ageGroup, boatCategory: boatCategory })
-    })
-        .then(response => response)
-        .then(data => {
-            console.log('Success:', data);
-            getdata_category();
-        })
-        .catch((error) => { console.error('Error:', error); });
+/**
+ * Creates a category
+ */
+function createCategory() {
+
+    const request = {
+        ageGroup: getElementValueById('ageGroup'),
+        boatCategory: getElementValueById('boatCategory')
+    }
+
+    create(API_URLS.category, request, getCategoriesTableData)
 }
 
-function create_competition() {
-    let competitorID = document.getElementById('competitorID').value;
-    let opponentID = document.getElementById('opponentID').value;
-    let numberOfRacesAgainstEachOther = document.getElementById('numberOfRacesAgainstEachOther').value;
-    let location = document.getElementById('location').value;
-    let distance = document.getElementById('distance').value;
-    fetch('http://localhost:55475/competition', {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', },
-        body: JSON.stringify(
-            { competitorID: competitorID, opponentID: opponentID, numberOfRacesAgainstEachOther: numberOfRacesAgainstEachOther, location: location, distance: distance })
-    })
-        .then(response => response)
-        .then(data => {
-            console.log('Success:', data);
-            getdata_competition();
-        })
-        .catch((error) => { console.error('Error:', error); });
+/**
+ * Creates a competition
+ */
+function createCompetition() {
+
+    const request = {
+        competitorID: getElementValueById('competitorID'),
+        opponentID: getElementValueById('opponentID'),
+        numberOfRacesAgainstEachOther: getElementValueById('numberOfRacesAgainstEachOther'),
+        location: getElementValueById('location'),
+        distance: getElementValueById('distance')
+    }
+
+    create(API_URLS.competition, request, getCompetitionsTableData)
+
 }
 
+/**
+ * Calles the provided url with the request object, then on success calles the provided successFn
+ * 
+ * @param {any} url
+ * @param {any} request
+ * @param {any} successFn
+ */
 function create(url, request, successFn) {
-    xhrPost(url, request)
+    fetchPost(url, request)
         .then(response => response)
         .then(data => {
             console.log('Success:', data);
@@ -450,86 +548,149 @@ function create(url, request, successFn) {
         .catch((error) => { console.error('Error:', error); });
 }
 
-// Non CRUD
+/**
+ *  [ NON CRUD METHODS ]
+ */
 
+/**
+ * Gets the competitors by boat category
+ */
 function getCompetitorsByBoatCategory() {
-    xhrGet(API_URLS.getCompetitorsByBoatCategory)
+    fetchGet(API_URLS.getCompetitorsByBoatCategory)
         .then(response => response.json())
         .then(data => {
             console.log(data)
             displayCompetitorsByBoatCategory(data)
         })
 }
+
+/**
+ * Displays the competitors by boat category data
+ * @param {any} data
+ */
 function displayCompetitorsByBoatCategory(data) {
     document.getElementById('competitorsbyboatcategory').innerHTML = JSON.stringify(data)
 }
 
+/**
+ * Gets the competitors with all relevant data
+ */
 function getCompetitorWithAllRelevantData() {
-    xhrGet(API_URLS.getCompetitorWithAllRelevantData)
+    fetchGet(API_URLS.getCompetitorWithAllRelevantData)
         .then(response => response.json())
         .then(data => {
             console.log(data)
             displayCompetitionWithAllRelevantData(data)
         })
 }
+/**
+ * Displays the competitors with all relevant data
+ * @param {any} data
+ */
 function displayCompetitionWithAllRelevantData(data) {
     document.getElementById('competitorwithallrelevantdata').innerHTML = JSON.stringify(data)
 }
 
+/**
+ * Gets all the opponents by name
+ */
 function getOpponentsByName() {
-    xhrGet(API_URLS.getOpponentsByName)
+    fetchGet(API_URLS.getOpponentsByName)
         .then(response => response.json())
         .then(data => {
             console.log(data)
             displayOpponentsByName(data)
         })
 }
+
+/**
+ * Displays all the oponents by name data
+ * @param {any} data
+ */
 function displayOpponentsByName(data) {
     document.getElementById('OpponentsByName').innerHTML = JSON.stringify(data)
 }
 
-function getCompetition_BasedOnCompetitorsNameAndNation() {
-    xhrGet(API_URLS.getCompetition_BasedOnCompetitorsNameAndNation)
+/**
+ * Gets the competitions based on the competitors name and the nation
+ */
+function getCompetitionBasedOnCompetitorsNameAndNation() {
+    fetchGet(API_URLS.getCompetitionBasedOnCompetitorsNameAndNation)
         .then(response => response.json())
         .then(data => {
             console.log(data)
             displayCompetition_BasedOnCompetitorsNameAndNation(data)
         })
 }
+
+/**
+ * Displays the competitions based on the competitors name and the nation data
+ * @param {any} data
+ */
 function displayCompetition_BasedOnCompetitorsNameAndNation(data) {
     document.getElementById('CompetitionBasedOnCompetitorsNameAndNation').innerHTML = JSON.stringify(data)
 }
 
+/**
+ * Gets the avg age
+ */
 function getAvgAge() {
-    xhrGet(API_URLS.getAvgAge)
+    fetchGet(API_URLS.getAvgAge)
         .then(response => response.json())
         .then(data => {
             console.log(data)
             displayAvgAge(data)
         })
 }
+
+/**
+ * Displays the avg age data
+ * @param {any} data
+ */
 function displayAvgAge(data) {
     document.getElementById('AvgAge').innerHTML = JSON.stringify(data)
 }
 
+/**
+ *  [ CEATE AND UPDATE DOM HELPER FUNCTIONS ]
+ */
 
+/**
+ * Hides the table element, and displays the add form for the given tab
+ * @param {any} value
+ */
 function add(value) {
+    // finds the table element
     const tableElement = document.getElementById(`${value}${ID_POSFIXES.table}`);
+    // finds the add form element
     const addFormElement = document.getElementById(`${value}${ID_POSFIXES.add}`);
 
+    // hides the table element
     addClass(tableElement, ELEMENT_CLASSES.hidden);
+    // displays the add form element
     removeClass(addFormElement, ELEMENT_CLASSES.hidden);
 }
 
+/**
+ * Hides the table element, and displays the edit form for the given tab
+ * @param {any} value
+ */
 function edit(value) {
+    // finds the table element
     const tableElement = document.getElementById(`${value}${ID_POSFIXES.table}`);
+    // finds the edit form element
     const editFormElement = document.getElementById(`${value}${ID_POSFIXES.edit}`);
 
+    // hides the table element
     addClass(tableElement, ELEMENT_CLASSES.hidden);
+    // displays the edit form element
     removeClass(editFormElement, ELEMENT_CLASSES.hidden);
 }
 
-
+/**
+ * Closes the add and edit form, and displays the table on the form
+ * @param {any} value
+ */
 function closeAllPanelsAndShowTable(value) {
     const tableElement = document.getElementById(`${value}${ID_POSFIXES.table}`);
     const addFormElement = document.getElementById(`${value}${ID_POSFIXES.add}`);
@@ -540,16 +701,25 @@ function closeAllPanelsAndShowTable(value) {
     removeClass(tableElement, ELEMENT_CLASSES.hidden);
 }
 
-// Helper functions
+/**
+ *  [ QUERY PARAMS ]
+ */
 
-// Query param handling
 
+/**
+ * Reads the current tab value from the query params
+ */
 function readCurrentTabFromQueryParams() {
     const urlParams = new URLSearchParams(window.location.search);
     return urlParams.get(TAB_QUERY_PARAM);
 
 }
 
+/**
+ * Adds the received key value pair to the query params, and updates the state of the history
+ * @param {any} key
+ * @param {any} value
+ */
 function setQueryParams(key, value) {
     const searchParams = new URLSearchParams(window.location.search);
     searchParams.set(key, value);
@@ -557,29 +727,61 @@ function setQueryParams(key, value) {
     history.pushState(null, "", newRelativePathQuery);
 }
 
-// Dom manipulation
+/**
+ *  [ DOM MANIPILATION ]
+ */
+
+/**
+ * Resets the innerHtml of the given element
+ * @param {any} id
+ */
 function resetInnerHtmlById(id) {
     document.getElementById(id).innerHTML = "";
 }
 
+/**
+ * Sets the display of the element to the received value
+ * @param {any} id
+ * @param {any} value
+ */
 function setElelmentVisibilityById(id, value) {
     document.getElementById(id).style.display = value;
 }
 
+/**
+ * Sets the value of the element to the received value
+ * @param {any} id
+ * @param {any} value
+ */
 function setElementValueById(id, value) {
     document.getElementById(id).value = value;
 }
 
+/**
+ * Gets the value of the element
+ * @param {any} id
+ * @returns
+ */
 function getElementValueById(id) {
     return document.getElementById(id).value
 }
 
+/**
+ * Adds the class to the element, if it doesn't have it
+ * @param {any} element
+ * @param {any} className
+ */
 function addClass(element, className) {
     if (!element.classList.contains(className)) {
         element.classList.add(className);
     }
 }
 
+/**
+ * Removes the class from the element, if it has it
+ * @param {any} element
+ * @param {any} className
+ */
 function removeClass(element, className) {
     if (element.classList.contains(className)) {
         element.classList.remove(className);
@@ -587,16 +789,18 @@ function removeClass(element, className) {
 }
 
 
-// XHR
+/**
+ *  [ FETCH ]
+ */
 
-async function xhrGet(url) {
+async function fetchGet(url) {
     return await fetch(`http://localhost:55475/${url}`, {
         method: XHR_TYPES.get,
         headers: DEFAULT_HEADERS
     })
 }
 
-async function xhrPost(url, request) {
+async function fetchPost(url, request) {
     fetch(`http://localhost:55475/${url}`, {
         method: XHR_TYPES.post,
         headers: DEFAULT_HEADERS,
@@ -604,7 +808,7 @@ async function xhrPost(url, request) {
     })
 }
 
-async function xhrPut(url, request) {
+async function fetchPut(url, request) {
     fetch(`http://localhost:55475/${url}`, {
         method: XHR_TYPES.put,
         headers: DEFAULT_HEADERS,
@@ -613,8 +817,7 @@ async function xhrPut(url, request) {
 }
 
 
-
-async function xhrDelete(url, id) {
+async function fetchDelete(url, id) {
     return await fetch(`http://localhost:55475/${url}/${id}`, {
         method: XHR_TYPES.delete,
         headers: DEFAULT_HEADERS

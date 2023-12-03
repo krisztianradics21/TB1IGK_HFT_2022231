@@ -30,7 +30,7 @@
             <input type="text" id="categoryID" />
             <label>Nation (3 capital letters)</label>
             <input type="text" id="nation" />
-            <button type="button" onclick="create_competitor()">Save</button>
+            <button type="button" onclick="createCompetitor()">Save</button>
             <button type="button" onclick="closeAllPanelsAndShowTable('competitors')">Cancel</button>
         </div>
 
@@ -46,7 +46,7 @@
                 <input type="text" id="categoryIDtoupdate" />
                 <label>Nation (3 capital letters)</label>
                 <input type="text" id="nationtoupdate" />
-                <button type="button" onclick="update_competitor()">Update</button>
+                <button type="button" onclick="updateCompetitor()">Update</button>
                 <button type="button" onclick="closeAllPanelsAndShowTable('competitors')">Cancel</button>
         </div>
 
@@ -79,7 +79,7 @@
             <input type="text" id="ageGroup" />
             <label>Boat category</label>
             <input type="text" id="boatCategory" />
-            <button type="button" onclick="create_category()">Save</button>
+            <button type="button" onclick="createCategory()">Save</button>
             <button type="button" onclick="closeAllPanelsAndShowTable('categories')">Cancel</button>
 
         </div>
@@ -89,7 +89,7 @@
             <input type="text" id="ageGrouptoupdate" />
             <label>Boat category</label>
             <input type="text" id="boatCategorytoupdate" />
-            <button type="button" onclick="update_category()">Update</button>
+            <button type="button" onclick="updateCategory()">Update</button>
             <button type="button" onclick="closeAllPanelsAndShowTable('categories')">Cancel</button>
 
         </div>
@@ -126,7 +126,7 @@
             <input type="text" id="location" />
             <label>Distance (between 200-1000)</label>
             <input type="text" id="distance" />
-            <button type="button" onclick="create_competition()">Save</button>
+            <button type="button" onclick="createCompetition()">Save</button>
             <button type="button" onclick="closeAllPanelsAndShowTable('competitions')">Cancel</button>
 
         </div>
@@ -143,7 +143,7 @@
             <input type="text" id="locationtoupdate" />
             <label>Distance (between 200-1000)</label>
             <input type="text" id="distancetoupdate" />
-            <button type="button" onclick="update_competition()">Update</button>
+            <button type="button" onclick="updateCompetition()">Update</button>
             <button type="button" onclick="closeAllPanelsAndShowTable('competitions')">Cancel</button>
 
         </div>
@@ -170,7 +170,6 @@
         </div>
     </div>
 
-
     <div id="otherData" class="tabcontent">
 
         <button onclick="getCompetitorWithAllRelevantData()">Competitors with all relevant data</button>
@@ -182,7 +181,7 @@
         <button onclick="getOpponentsByName()">Opponents by name</button>
         <p id="OpponentsByName"></p>
 
-        <button onclick="getCompetition_BasedOnCompetitorsNameAndNation()">Competition based on competitor's name and nation</button>
+        <button onclick="getCompetitionBasedOnCompetitorsNameAndNation()">Competition based on competitor's name and nation</button>
         <p id="CompetitionBasedOnCompetitorsNameAndNation"></p>
 
         <button onclick="getAvgAge()">Competitors avarage age</button>
